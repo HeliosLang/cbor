@@ -41,7 +41,7 @@ describe(isConstr.name, () => {
 
 describe(decodeConstr.name, () => {
     // test vectors taken from https://github.com/input-output-hk/plutus/blob/master/plutus-core/plutus-core/test/CBOR/DataStability.hs#L83
-    
+
     describe("returns [0, [#bd99a373075d42fe4ac9109515e46303d0940cb9620bf058b87986a9, [0, []]]]", () => {
         const expected = [
             0,
