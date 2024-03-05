@@ -98,12 +98,17 @@ function decodeConstrTag(bytes) {
 }
 
 /**
- * @template {Array<Decoder<any>>} Decoders
+ * @template {Array<Decoder<any>> | Decoder<any>} Decoders
  * @param {number[] | ByteStream} bytes
- * @param {[...Decoders]} fieldDecoders
- * @returns {[number, {[D in keyof Decoders]: Decoders[D] extends Decoder<infer T> ? T : never}]}
+ * @param {Decoders extends Array ? [...Decoders] : Decoders} fieldDecoder - array for heterogenous item types, single function for homogenous item types
+ * @returns {[
+ *   number,
+ *   Decoders extends Array ? {
+ *     [D in keyof Decoders]: Decoders[D] extends Decoder<infer T> ? T : never
+ *   } : Decoders extends Decoder<infer T> ? T[] : never
+ * ]}
  */
-export function decodeConstr(bytes, fieldDecoders) {
+export function decodeConstr(bytes, fieldDecoder) {
     const stream = ByteStream.from(bytes)
 
     const tag = decodeConstrTag(stream)
@@ -112,21 +117,27 @@ export function decodeConstr(bytes, fieldDecoders) {
      * @type {any}
      */
     const res = decodeList(stream, (itemStream, i) => {
-        const decoder = fieldDecoders[i]
+        if (Array.isArray(fieldDecoder)) {
+            const decoder = fieldDecoder[i]
 
-        if (!decoder) {
-            throw new Error(
-                `expected ${fieldDecoders.length} fields, got more than ${i}`
-            )
+            if (!decoder) {
+                throw new Error(
+                    `expected ${fieldDecoder.length} fields, got more than ${i}`
+                )
+            }
+
+            return decodeGeneric(itemStream, decoder)
+        } else {
+            return decodeGeneric(itemStream, fieldDecoder)
         }
-
-        return decodeGeneric(itemStream, decoder)
     })
 
-    if (res.length < fieldDecoders.length) {
-        throw new Error(
-            `expected ${fieldDecoders.length} fields, only got ${res.length}`
-        )
+    if (Array.isArray(fieldDecoder)) {
+        if (res.length < fieldDecoder.length) {
+            throw new Error(
+                `expected ${fieldDecoder.length} fields, only got ${res.length}`
+            )
+        }
     }
 
     return [tag, res]

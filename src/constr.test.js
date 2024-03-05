@@ -41,7 +41,6 @@ describe(isConstr.name, () => {
 
 describe(decodeConstr.name, () => {
     // test vectors taken from https://github.com/input-output-hk/plutus/blob/master/plutus-core/plutus-core/test/CBOR/DataStability.hs#L83
-
     describe("returns [0, [#bd99a373075d42fe4ac9109515e46303d0940cb9620bf058b87986a9, [0, []]]]", () => {
         const expected = [
             0,
@@ -235,6 +234,23 @@ describe("bad constr tags", () => {
                 []
             )
         )
+    })
+})
+
+describe(`roundtrip ${encodeConstr.name}/${decodeConstr.name} homogenous field type`, () => {
+    it(`ok for [0, 1, 2, 3]`, () => {
+        const tag = 0
+        const fields = [0n, 1n, 2n, 3n]
+
+        const actual = decodeConstr(
+            encodeConstr(
+                tag,
+                fields.map((item) => encodeInt(item))
+            ),
+            decodeInt
+        )
+
+        deepEqual(actual, [tag, fields])
     })
 })
 
