@@ -6,7 +6,7 @@ import { decodeList, isDefList } from "./list.js"
  * @param {number[] | ByteStream} bytes
  * @returns {boolean}
  */
-function isDefBytes(bytes) {
+export function isDefBytes(bytes) {
     const stream = ByteStream.from(bytes)
 
     const [m, _] = decodeHead(stream.copy())
@@ -18,7 +18,7 @@ function isDefBytes(bytes) {
  * @param {number[] | ByteStream} bytes
  * @returns {boolean}
  */
-function isIndefBytes(bytes) {
+export function isIndefBytes(bytes) {
     const stream = ByteStream.from(bytes)
 
     return 2 * 32 + 31 == stream.peekOne()

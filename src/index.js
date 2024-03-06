@@ -1,5 +1,11 @@
 export { decodeBool, encodeBool, isBool } from "./bool.js"
-export { decodeBytes, encodeBytes, isBytes } from "./bytes.js"
+export {
+    decodeBytes,
+    encodeBytes,
+    isBytes,
+    isDefBytes,
+    isIndefBytes
+} from "./bytes.js"
 export { decodeConstr, encodeConstr, isConstr } from "./constr.js"
 export { decodeInt, encodeInt, isInt } from "./int.js"
 export { decodeList, encodeList, isList } from "./list.js"
