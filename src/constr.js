@@ -101,9 +101,11 @@ function decodeConstrTag(bytes) {
 }
 
 /**
- * @template {Array<Decoder<any>> | Decoder<any>} Decoders
+ * The homogenous field type case is used by the uplc ConstrData (undetermined number of UplcData items)
+ * @template {[Decoder<any>, ...Decoder<any>[]] | Array<Decoder<any>> | Decoder<any>} Decoders
  * @param {ByteArrayLike} bytes
- * @param {Decoders extends Array ? [...Decoders] : Decoders} fieldDecoder - array for heterogenous item types, single function for homogenous item types
+ * Note: the conditional tuple check loses the tupleness if we just check against array, hence first we check against a tuple, and then an array (needed for the empty case)
+ * @param {Decoders extends [Decoder<any>, ...Decoder<any>[]] ? [...Decoders] : Decoders extends Array ? [...Decoders] : Decoders} fieldDecoder - array for heterogenous item types, single function for homogenous item types
  * @returns {[
  *   number,
  *   Decoders extends Array ? {
