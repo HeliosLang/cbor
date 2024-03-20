@@ -2,6 +2,10 @@ import { ByteStream } from "@helios-lang/codec-utils"
 import { decodeHead, encodeHead } from "./head.js"
 
 /**
+ * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ */
+
+/**
  * Unrelated to constructor
  * @param {bigint | number} tag
  * @returns {number[]}
@@ -17,7 +21,7 @@ export function encodeTag(tag) {
 }
 
 /**
- * @param {number[] | ByteStream} bytes
+ * @param {ByteArrayLike} bytes
  * @returns {bigint}
  */
 export function decodeTag(bytes) {

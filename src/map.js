@@ -3,6 +3,10 @@ import { decodeHead, encodeHead, encodeIndefHead } from "./head.js"
 import { decodeGeneric, encodeGeneric } from "./generic.js"
 
 /**
+ * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ */
+
+/**
  * @template T
  * @typedef {import("./generic.js").Decoder<T>} Decoder<T>
  */
@@ -12,7 +16,7 @@ import { decodeGeneric, encodeGeneric } from "./generic.js"
  */
 
 /**
- * @param {number[] | ByteStream} bytes
+ * @param {ByteArrayLike} bytes
  * @returns {boolean}
  */
 export function isMap(bytes) {
@@ -134,7 +138,7 @@ function decodeIndefMap(stream, keyDecoder, valueDecoder) {
  * which are simply stored as consecutive CBOR elements.
  * @template TKey
  * @template TValue
- * @param {number[] | ByteStream} bytes
+ * @param {ByteArrayLike} bytes
  * @param {Decoder<TKey>} keyDecoder
  * @param {Decoder<TValue>} valueDecoder
  * @returns {[TKey, TValue][]}

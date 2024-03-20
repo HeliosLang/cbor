@@ -3,7 +3,11 @@ import { decodeHead, encodeHead } from "./head.js"
 import { decodeBytes, encodeBytes } from "./bytes.js"
 
 /**
- * @param {number[] | ByteStream} bytes
+ * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ */
+
+/**
+ * @param {ByteArrayLike} bytes
  * @returns {boolean}
  */
 export function isInt(bytes) {
@@ -41,7 +45,7 @@ export function encodeInt(n) {
 
 /**
  * Decodes a CBOR encoded bigint integer.
- * @param {number[] | ByteStream} bytes
+ * @param {ByteArrayLike} bytes
  * @returns {bigint}
  */
 export function decodeInt(bytes) {

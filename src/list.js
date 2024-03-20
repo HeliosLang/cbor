@@ -8,6 +8,10 @@ import {
 import { encodeGeneric } from "./generic.js"
 
 /**
+ * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ */
+
+/**
  * @template T
  * @typedef {import("./generic.js").Decodeable<T>} Decodeable<T>
  */
@@ -44,7 +48,7 @@ function getIndexedDecoder(decoder) {
 }
 
 /**
- * @param {number[] | ByteStream} bytes
+ * @param {ByteArrayLike} bytes
  * @returns {boolean}
  */
 export function isIndefList(bytes) {
@@ -58,7 +62,7 @@ export function isIndefList(bytes) {
 }
 
 /**
- * @param {number[] | ByteStream} bytes
+ * @param {ByteArrayLike} bytes
  * @returns {boolean}
  */
 export function isDefList(bytes) {
@@ -74,7 +78,7 @@ export function isDefList(bytes) {
 }
 
 /**
- * @param {number[] | ByteStream} bytes
+ * @param {ByteArrayLike} bytes
  * @returns {boolean}
  */
 export function isList(bytes) {
@@ -156,7 +160,7 @@ export function encodeDefList(items) {
  * Decodes a CBOR encoded list.
  * A decoder function is called with the bytes of every contained item (nothing is returning directly).
  * @template T
- * @param {number[] | ByteStream} bytes
+ * @param {ByteArrayLike} bytes
  * @param {IndexedDecoder<T> | Decodeable<T>} itemDecoder
  * @returns {T[]}
  */

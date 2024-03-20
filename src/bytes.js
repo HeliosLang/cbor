@@ -1,9 +1,12 @@
 import { ByteStream } from "@helios-lang/codec-utils"
 import { decodeHead, encodeHead, encodeIndefHead } from "./head.js"
-import { decodeList, isDefList } from "./list.js"
 
 /**
- * @param {number[] | ByteStream} bytes
+ * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ */
+
+/**
+ * @param {ByteArrayLike} bytes
  * @returns {boolean}
  */
 export function isDefBytes(bytes) {
@@ -15,7 +18,7 @@ export function isDefBytes(bytes) {
 }
 
 /**
- * @param {number[] | ByteStream} bytes
+ * @param {ByteArrayLike} bytes
  * @returns {boolean}
  */
 export function isIndefBytes(bytes) {
@@ -25,7 +28,7 @@ export function isIndefBytes(bytes) {
 }
 
 /**
- * @param {number[] | ByteStream} bytes
+ * @param {ByteArrayLike} bytes
  * @returns {boolean}
  */
 export function isBytes(bytes) {
@@ -63,7 +66,7 @@ export function encodeBytes(bytes, splitIntoChunks = false) {
 
 /**
  * Unwraps a CBOR encoded list of bytes
- * @param {number[] | ByteStream} bytes - cborbytes, mutated to form remaining
+ * @param {ByteArrayLike} bytes - cborbytes, mutated to form remaining
  * @returns {number[]} - byteArray
  */
 export function decodeBytes(bytes) {

@@ -5,6 +5,9 @@ import { decodeGeneric } from "./generic.js"
 import { decodeList, encodeList } from "./list.js"
 
 /**
+ * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ */
+/**
  * @template T
  * @typedef {import("./generic.js").Decoder<T>} Decoder<T>
  */
@@ -14,7 +17,7 @@ import { decodeList, encodeList } from "./list.js"
  */
 
 /**
- * @param {number[] | ByteStream} bytes
+ * @param {ByteArrayLike} bytes
  * @returns {boolean}
  */
 export function isConstr(bytes) {
@@ -62,7 +65,7 @@ export function encodeConstr(tag, fields) {
 }
 
 /**
- * @param {number[] | ByteStream} bytes
+ * @param {ByteArrayLike} bytes
  * @returns {number}
  */
 function decodeConstrTag(bytes) {
@@ -99,7 +102,7 @@ function decodeConstrTag(bytes) {
 
 /**
  * @template {Array<Decoder<any>> | Decoder<any>} Decoders
- * @param {number[] | ByteStream} bytes
+ * @param {ByteArrayLike} bytes
  * @param {Decoders extends Array ? [...Decoders] : Decoders} fieldDecoder - array for heterogenous item types, single function for homogenous item types
  * @returns {[
  *   number,
