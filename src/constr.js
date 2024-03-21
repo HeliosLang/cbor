@@ -2,7 +2,7 @@ import { ByteStream } from "@helios-lang/codec-utils"
 import { decodeHead, encodeHead } from "./head.js"
 import { decodeInt, encodeInt } from "./int.js"
 import { decodeGeneric } from "./generic.js"
-import { decodeList, encodeList } from "./list.js"
+import { decodeList, decodeListLazy, encodeList } from "./list.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
@@ -146,4 +146,15 @@ export function decodeConstr(bytes, fieldDecoder) {
     }
 
     return [tag, res]
+}
+
+/**
+ * @param {ByteArrayLike} bytes
+ */
+export function decodeConstrLazy(bytes) {
+    const stream = ByteStream.from(bytes)
+    const tag = decodeConstrTag(stream)
+    const decodeField = decodeListLazy(bytes)
+
+    return /** @type {[number, typeof decodeField]} */ ([tag, decodeField])
 }

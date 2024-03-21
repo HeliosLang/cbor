@@ -33,6 +33,7 @@ import { encodeGeneric } from "./generic.js"
 /**
  * @template T
  * @param {IndexedDecoder<T> | Decodeable<T>} decoder
+ * @returns {IndexedDecoder<T>}
  */
 function getIndexedDecoder(decoder) {
     if (decoder && "fromCbor" in decoder) {
@@ -201,4 +202,79 @@ export function decodeList(bytes, itemDecoder) {
     }
 
     return res
+}
+/**
+ * @param {ByteArrayLike} bytes
+ */
+export function decodeListLazy(bytes) {
+    const stream = ByteStream.from(bytes)
+
+    if (isIndefList(stream)) {
+        if (decodeIndefHead(stream) != 4) {
+            throw new Error("unexpected")
+        }
+
+        let i = 0
+        let done = false
+
+        if (stream.peekOne() == 255) {
+            stream.shiftOne()
+            done = true
+        }
+
+        /**
+         * @template T
+         * @param {IndexedDecoder<T> | Decodeable<T>} itemDecoder
+         * @returns {T}
+         */
+        function decodeItem(itemDecoder) {
+            if (done) {
+                throw new Error("end-of-list")
+            }
+
+            const itemDecoder_ = getIndexedDecoder(itemDecoder)
+
+            const res = itemDecoder_(stream, i)
+
+            i++
+
+            if (stream.peekOne() == 255) {
+                stream.shiftOne()
+                done = true
+            }
+
+            return res
+        }
+
+        return decodeItem
+    } else {
+        const [m, n] = decodeHead(stream)
+
+        if (m != 4) {
+            throw new Error("unexpected")
+        }
+
+        let i = 0
+
+        /**
+         * @template T
+         * @param {IndexedDecoder<T> | Decodeable<T>} itemDecoder
+         * @returns {T}
+         */
+        function decodeItem(itemDecoder) {
+            if (i >= n) {
+                throw new Error("out-of-range")
+            }
+
+            const itemDecoder_ = getIndexedDecoder(itemDecoder)
+
+            const res = itemDecoder_(stream, i)
+
+            i++
+
+            return res
+        }
+
+        return decodeItem
+    }
 }
