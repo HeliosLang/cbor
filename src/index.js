@@ -23,6 +23,7 @@ export {
     encodeObjectSKey,
     isObject
 } from "./object.js"
+export { decodeOption, encodeOption } from "./option.js"
 export { decodeString, encodeString, isString } from "./string.js"
 export { decodeTag, encodeTag } from "./tag.js"
 export { decodeTagged } from "./tagged.js"
