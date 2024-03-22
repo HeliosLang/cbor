@@ -77,3 +77,10 @@ export function decodeTuple(bytes, itemDecoders, optionalDecoders = []) {
 
     return res
 }
+
+/**
+ * @param {ByteArrayLike} bytes
+ */
+export function decodeTupleLazy(bytes) {
+    return decodeListLazy(bytes)
+}
