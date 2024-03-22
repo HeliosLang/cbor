@@ -26,4 +26,4 @@ export {
 export { decodeString, encodeString, isString } from "./string.js"
 export { decodeTag, encodeTag } from "./tag.js"
 export { decodeTagged } from "./tagged.js"
-export { decodeTuple, encodeTuple, isTuple } from "./tuple.js"
+export { decodeTuple, decodeTupleLazy, encodeTuple, isTuple } from "./tuple.js"
