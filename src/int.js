@@ -35,11 +35,11 @@ export function encodeInt(n) {
     } else if (n >= 0n && n <= (2n << 63n) - 1n) {
         return encodeHead(0, n)
     } else if (n >= 2n << 63n) {
-        return encodeHead(6, 2n).concat(encodeBytes(encodeIntBE(n)))
+        return encodeHead(6, 2).concat(encodeBytes(encodeIntBE(n)))
     } else if (n <= -1n && n >= -(2n << 63n)) {
         return encodeHead(1, -n - 1n)
     } else {
-        return encodeHead(6, 3n).concat(encodeBytes(encodeIntBE(-n - 1n)))
+        return encodeHead(6, 3).concat(encodeBytes(encodeIntBE(-n - 1n)))
     }
 }
 

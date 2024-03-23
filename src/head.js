@@ -6,7 +6,7 @@ import { encodeIntBE, decodeIntBE, ByteStream } from "@helios-lang/codec-utils"
 
 /**
  * @param {number} m - major type
- * @param {bigint} n - size parameter
+ * @param {bigint | number} n - size parameter
  * @returns {number[]} - uint8 bytes
  */
 export function encodeHead(m, n) {
@@ -15,7 +15,11 @@ export function encodeHead(m, n) {
     } else if (n >= 24n && n <= 255n) {
         return [32 * m + 24, Number(n)]
     } else if (n >= 256n && n <= 256n * 256n - 1n) {
-        return [32 * m + 25, Number((n / 256n) % 256n), Number(n % 256n)]
+        return [
+            32 * m + 25,
+            Number((BigInt(n) / 256n) % 256n),
+            Number(BigInt(n) % 256n)
+        ]
     } else if (n >= 256n * 256n && n <= 256n * 256n * 256n * 256n - 1n) {
         const e4 = encodeIntBE(n)
 
@@ -58,16 +62,28 @@ export function decodeHead(bytes) {
     } else if (first % 32 == 24) {
         return [m, decodeIntBE(stream.shiftMany(1))]
     } else if (first % 32 == 25) {
-        return [m, decodeIntBE(stream.shiftMany(2))]
+        if (m == 7) {
+            throw new Error("decode Float16 by calling decodeFloat16 directly")
+        } else {
+            return [m, decodeIntBE(stream.shiftMany(2))]
+        }
     } else if (first % 32 == 26) {
-        return [m, decodeIntBE(stream.shiftMany(4))]
+        if (m == 7) {
+            throw new Error("decode Float32 by calling decodeFloat32 directly")
+        } else {
+            return [m, decodeIntBE(stream.shiftMany(4))]
+        }
     } else if (first % 32 == 27) {
-        return [m, decodeIntBE(stream.shiftMany(8))]
+        if (m == 7) {
+            throw new Error("decode Float64 by calling decodeFloat64 directly")
+        } else {
+            return [m, decodeIntBE(stream.shiftMany(8))]
+        }
     } else if (
         (m == 2 || m == 3 || m == 4 || m == 5 || m == 7) &&
         first % 32 == 31
     ) {
-        return [m, 31n] // n=31 is used an indefinite length marker for 2,3,4,5,7 (never for 0,1,7)
+        return [m, 31n] // n=31 is used an indefinite length marker for 2,3,4,5,7 (never for 0,1,6)
     } else {
         throw new Error("bad header")
     }

@@ -27,7 +27,7 @@ export function isConstr(bytes) {
 
     if (m == 6) {
         return (
-            n == 102n || (n >= 121n && n <= 127) || (n >= 1280n && n <= 1400n)
+            n == 102n || (n >= 121n && n <= 127n) || (n >= 1280n && n <= 1400n)
         )
     } else {
         return false
@@ -91,9 +91,9 @@ function decodeConstrTag(bytes) {
         throw new Error(`unexpected encoded constr tag ${n}`)
     } else if (n <= 127n) {
         return Number(n - 121n)
-    } else if (n < 1280) {
+    } else if (n < 1280n) {
         throw new Error(`unexpected encoded constr tag ${n}`)
-    } else if (n <= 1400) {
+    } else if (n <= 1400n) {
         return Number(n - 1280n + 7n)
     } else {
         throw new Error(`unexpected encoded constr tag ${n}`)

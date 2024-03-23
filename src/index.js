@@ -12,6 +12,19 @@ export {
     encodeConstr,
     isConstr
 } from "./constr.js"
+export {
+    decodeFloat,
+    decodeFloat16,
+    decodeFloat32,
+    decodeFloat64,
+    encodeFloat16,
+    encodeFloat32,
+    encodeFloat64,
+    isFloat,
+    isFloat16,
+    isFloat32,
+    isFloat64
+} from "./float.js"
 export { decodeInt, encodeInt, isInt } from "./int.js"
 export { decodeList, decodeListLazy, encodeList, isList } from "./list.js"
 export { decodeMap, encodeMap, isMap } from "./map.js"

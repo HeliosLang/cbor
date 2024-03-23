@@ -4,7 +4,7 @@ import { ByteStream } from "@helios-lang/codec-utils"
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
  */
 
-const NULL_BYTE = 246
+const NULL_BYTE = 246 // m = 7, n = 22
 
 /**
  * @param {ByteArrayLike} bytes
