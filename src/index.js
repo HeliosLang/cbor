@@ -26,7 +26,14 @@ export {
     isFloat64
 } from "./float.js"
 export { decodeInt, encodeInt, isInt } from "./int.js"
-export { decodeList, decodeListLazy, encodeList, isList } from "./list.js"
+export {
+    decodeList,
+    decodeListLazy,
+    encodeList,
+    encodeDefList,
+    encodeIndefList,
+    isList
+} from "./list.js"
 export { decodeMap, encodeMap, isMap } from "./map.js"
 export { decodeNull, encodeNull, isNull } from "./null.js"
 export {
