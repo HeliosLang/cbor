@@ -1,7 +1,8 @@
 import { ByteStream } from "@helios-lang/codec-utils"
 import { decodeNull, encodeNull, isNull } from "./null.js"
 import { None } from "@helios-lang/type-utils"
-import { decodeGeneric } from "./generic.js"
+import { decodeGeneric, encodeGeneric } from "./generic.js"
+import { decodeListLazyOption, encodeList } from "./list.js"
 /**
  * @template T
  * @typedef {import("./generic.js").Decoder<T>} Decoder
@@ -9,6 +10,7 @@ import { decodeGeneric } from "./generic.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ * @typedef {import("./generic.js").Encodeable} Encodeable
  */
 
 /**
@@ -17,7 +19,7 @@ import { decodeGeneric } from "./generic.js"
  * @param {Decoder<T>} decodeSome
  * @returns {Option<T>}
  */
-export function decodeOption(bytes, decodeSome) {
+export function decodeNullOption(bytes, decodeSome) {
     const stream = ByteStream.from(bytes)
 
     if (isNull(stream)) {
@@ -29,9 +31,28 @@ export function decodeOption(bytes, decodeSome) {
 
 /**
  * @template T
- * @param {Option<T>} option
- * @param {(some: T) => number[]} encodeSome
+ * @param {ByteArrayLike} bytes
+ * @param {Decoder<T>} decodeSome
+ * @returns {Option<T>}
  */
-export function encodeOption(option, encodeSome) {
-    return option ? encodeSome(option) : encodeNull()
+export function decodeListOption(bytes, decodeSome) {
+    const decodeItem = decodeListLazyOption(bytes)
+
+    return decodeItem(decodeSome)
+}
+
+/**
+ * @template T
+ * @param {Option<Encodeable>} option
+ */
+export function encodeNullOption(option) {
+    return option ? encodeGeneric(option) : encodeNull()
+}
+
+/**
+ * @param {Option<Encodeable>} option
+ * @returns {number[]}
+ */
+export function encodeListOption(option) {
+    return encodeList(option ? [encodeGeneric(option)] : [])
 }

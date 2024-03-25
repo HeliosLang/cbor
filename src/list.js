@@ -6,6 +6,7 @@ import {
     encodeIndefHead
 } from "./head.js"
 import { encodeGeneric } from "./generic.js"
+import { None } from "@helios-lang/type-utils"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
@@ -203,6 +204,7 @@ export function decodeList(bytes, itemDecoder) {
 
     return res
 }
+
 /**
  * @param {ByteArrayLike} bytes
  */
@@ -264,6 +266,82 @@ export function decodeListLazy(bytes) {
         function decodeItem(itemDecoder) {
             if (i >= n) {
                 throw new Error("out-of-range")
+            }
+
+            const itemDecoder_ = getIndexedDecoder(itemDecoder)
+
+            const res = itemDecoder_(stream, i)
+
+            i++
+
+            return res
+        }
+
+        return decodeItem
+    }
+}
+
+/**
+ * @param {ByteArrayLike} bytes
+ */
+export function decodeListLazyOption(bytes) {
+    const stream = ByteStream.from(bytes)
+
+    if (isIndefList(stream)) {
+        if (decodeIndefHead(stream) != 4) {
+            throw new Error("unexpected")
+        }
+
+        let i = 0
+        let done = false
+
+        if (stream.peekOne() == 255) {
+            stream.shiftOne()
+            done = true
+        }
+
+        /**
+         * @template T
+         * @param {IndexedDecoder<T> | Decodeable<T>} itemDecoder
+         * @returns {Option<T>}
+         */
+        function decodeItem(itemDecoder) {
+            if (done) {
+                return None
+            }
+
+            const itemDecoder_ = getIndexedDecoder(itemDecoder)
+
+            const res = itemDecoder_(stream, i)
+
+            i++
+
+            if (stream.peekOne() == 255) {
+                stream.shiftOne()
+                done = true
+            }
+
+            return res
+        }
+
+        return decodeItem
+    } else {
+        const [m, n] = decodeHead(stream)
+
+        if (m != 4) {
+            throw new Error("unexpected")
+        }
+
+        let i = 0
+
+        /**
+         * @template T
+         * @param {IndexedDecoder<T> | Decodeable<T>} itemDecoder
+         * @returns {Option<T>}
+         */
+        function decodeItem(itemDecoder) {
+            if (i >= n) {
+                return None
             }
 
             const itemDecoder_ = getIndexedDecoder(itemDecoder)
