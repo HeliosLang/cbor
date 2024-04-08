@@ -4,15 +4,12 @@ import { decodeGeneric } from "./generic.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ * @typedef {import("./generic.js").Encodeable} Encodeable
  */
 
 /**
  * @template T
  * @typedef {import("./generic.js").Decoder<T>} Decoder<T>
- */
-
-/**
- * @typedef {import("./generic.js").Encodeable} Encodeable
  */
 
 /**

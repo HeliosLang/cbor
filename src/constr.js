@@ -105,10 +105,10 @@ function decodeConstrTag(bytes) {
  * @template {[Decoder<any>, ...Decoder<any>[]] | Array<Decoder<any>> | Decoder<any>} Decoders
  * @param {ByteArrayLike} bytes
  * Note: the conditional tuple check loses the tupleness if we just check against array, hence first we check against a tuple, and then an array (needed for the empty case)
- * @param {Decoders extends [Decoder<any>, ...Decoder<any>[]] ? [...Decoders] : Decoders extends Array ? [...Decoders] : Decoders} fieldDecoder - array for heterogenous item types, single function for homogenous item types
+ * @param {Decoders extends [Decoder<any>, ...Decoder<any>[]] ? [...Decoders] : Decoders extends Array<any> ? [...Decoders] : Decoders} fieldDecoder - array for heterogenous item types, single function for homogenous item types
  * @returns {[
  *   number,
- *   Decoders extends Array ? {
+ *   Decoders extends Array<any> ? {
  *     [D in keyof Decoders]: Decoders[D] extends Decoder<infer T> ? T : never
  *   } : Decoders extends Decoder<infer T> ? T[] : never
  * ]}
