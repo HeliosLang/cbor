@@ -3,6 +3,7 @@
     "version": "0.1.16",
     "description": "Cardano-specific CBOR (de)serialization library",
     "main": "src/index.js",
+    "types": "types/index.d.ts",
     "type": "module",
     "scripts": {
         "build": "npm run prettify && npm run build:types && npm run test:suite",
