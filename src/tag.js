@@ -3,11 +3,12 @@ import { decodeHead, encodeHead } from "./head.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ * @typedef {import("@helios-lang/codec-utils").IntLike} IntLike
  */
 
 /**
  * Unrelated to constructor
- * @param {bigint | number} tag
+ * @param {IntLike} tag
  * @returns {number[]}
  */
 export function encodeTag(tag) {

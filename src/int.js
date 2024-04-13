@@ -4,6 +4,7 @@ import { decodeBytes, encodeBytes } from "./bytes.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ * @typedef {import("@helios-lang/codec-utils").IntLike} IntLike
  */
 
 /**
@@ -26,7 +27,7 @@ export function isInt(bytes) {
 
 /**
  * Encodes a bigint integer using CBOR.
- * @param {bigint | number} n
+ * @param {IntLike} n
  * @returns {number[]}
  */
 export function encodeInt(n) {

@@ -2,11 +2,12 @@ import { encodeIntBE, decodeIntBE, ByteStream } from "@helios-lang/codec-utils"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ * @typedef {import("@helios-lang/codec-utils").IntLike} IntLike
  */
 
 /**
  * @param {number} m - major type
- * @param {bigint | number} n - size parameter
+ * @param {IntLike} n - size parameter
  * @returns {number[]} - uint8 bytes
  */
 export function encodeHead(m, n) {

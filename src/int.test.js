@@ -4,7 +4,11 @@ import { bytesToHex } from "@helios-lang/codec-utils"
 import { decodeInt, encodeInt, isInt } from "./int.js"
 
 /**
- * @type {[bigint | number, number[]][]}
+ * @typedef {import("@helios-lang/codec-utils").IntLike} IntLike
+ */
+
+/**
+ * @type {[IntLike, number[]][]}
  */
 const testVectors = [
     [0, [0]],
