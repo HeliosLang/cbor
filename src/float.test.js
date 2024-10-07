@@ -1,11 +1,18 @@
 import { describe, it } from "node:test"
 import {
     decodeFloat,
+    decodeFloat16,
+    decodeFloat32,
+    decodeFloat64,
     encodeFloat16,
     encodeFloat32,
-    encodeFloat64
+    encodeFloat64,
+    isFloat,
+    isFloat16,
+    isFloat32,
+    isFloat64
 } from "./float.js"
-import { deepEqual, strictEqual } from "node:assert"
+import { deepEqual, strictEqual, throws } from "node:assert"
 import { bytesToHex } from "@helios-lang/codec-utils"
 /**
  * Taken from https://github.com/cbor/test-vectors/blob/master/appendix_a.json
@@ -48,6 +55,56 @@ describe(decodeFloat.name, () => {
             strictEqual(decodeFloat(bytes), f)
         })
     })
+
+    it("fails for non-float cbor", () => {
+        throws(() => {
+            decodeFloat([0])
+        })
+    })
+})
+
+describe(decodeFloat16.name, () => {
+    testVector
+        .filter(([bytes, f]) => bytes.length == 3 && !Number.isNaN(f))
+        .forEach(([bytes, f]) => {
+            strictEqual(decodeFloat16(bytes), f)
+            throws(() => {
+                decodeFloat32(bytes)
+            })
+            throws(() => {
+                decodeFloat64(bytes)
+            })
+        }) 
+})
+
+describe(decodeFloat32.name, () => {
+    // NaN has a variety of representations, so we won't test that here
+    testVector
+        .filter(([bytes, f]) => bytes.length == 5 && !Number.isNaN(f))
+        .forEach(([bytes, f]) => {
+            throws(() => {
+                decodeFloat16(bytes)
+            })
+            strictEqual(decodeFloat32(bytes), f)
+            throws(() => {
+                decodeFloat64(bytes)
+            })
+        })
+})
+
+describe(decodeFloat64.name, () => {
+    // NaN has a variety of representations, so we won't test that here
+    testVector
+        .filter(([bytes, f]) => bytes.length == 9 && !Number.isNaN(f))
+        .forEach(([bytes, f]) => {
+            throws(() => {
+                decodeFloat16(bytes)
+            })
+            throws(() => {
+                decodeFloat32(bytes)
+            })
+            strictEqual(decodeFloat64(bytes), f)
+        })
 })
 
 describe(encodeFloat16.name, () => {
@@ -57,6 +114,10 @@ describe(encodeFloat16.name, () => {
         .forEach(([bytes, f]) => {
             it(`encodes ${f} as #${bytesToHex(bytes)}`, () => {
                 deepEqual(encodeFloat16(f), bytes)
+                strictEqual(isFloat(bytes), true)
+                strictEqual(isFloat16(bytes), true)
+                strictEqual(isFloat32(bytes), false)
+                strictEqual(isFloat64(bytes), false)
             })
         })
 })
@@ -68,6 +129,10 @@ describe(encodeFloat32.name, () => {
         .forEach(([bytes, f]) => {
             it(`encodes ${f} as #${bytesToHex(bytes)}`, () => {
                 deepEqual(encodeFloat32(f), bytes)
+                strictEqual(isFloat(bytes), true)
+                strictEqual(isFloat16(bytes), false)
+                strictEqual(isFloat32(bytes), true)
+                strictEqual(isFloat64(bytes), false)
             })
         })
 })
@@ -79,6 +144,10 @@ describe(encodeFloat64.name, () => {
         .forEach(([bytes, f]) => {
             it(`encodes ${f} as #${bytesToHex(bytes)}`, () => {
                 deepEqual(encodeFloat64(f), bytes)
+                strictEqual(isFloat(bytes), true)
+                strictEqual(isFloat16(bytes), false)
+                strictEqual(isFloat32(bytes), false)
+                strictEqual(isFloat64(bytes), true)
             })
         })
 })

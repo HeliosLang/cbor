@@ -1,9 +1,9 @@
 import { ByteStream } from "@helios-lang/codec-utils"
 import {
-    decodeHead,
-    decodeIndefHead,
-    encodeHead,
-    encodeIndefHead
+    decodeDefHead,
+    encodeDefHead,
+    encodeIndefHead,
+    peekMajorType
 } from "./head.js"
 import { encodeGeneric } from "./generic.js"
 import { None } from "@helios-lang/type-utils"
@@ -70,13 +70,7 @@ export function isIndefList(bytes) {
 export function isDefList(bytes) {
     const stream = ByteStream.from(bytes)
 
-    try {
-        const [m, _] = decodeHead(stream.copy())
-        return m == 4
-    } catch (error) {
-        if (error.message.includes("bad header")) return false
-        throw error
-    }
+    return peekMajorType(stream) == 4 && (stream.peekOne() != 4*32 + 31)
 }
 
 /**
@@ -84,7 +78,7 @@ export function isDefList(bytes) {
  * @returns {boolean}
  */
 export function isList(bytes) {
-    return isIndefList(bytes) || isDefList(bytes)
+    return peekMajorType(bytes) == 4
 }
 
 /**
@@ -143,7 +137,7 @@ export function encodeIndefList(list) {
  * @returns {number[]}
  */
 function encodeDefListStart(n) {
-    return encodeHead(4, n)
+    return encodeDefHead(4, n)
 }
 
 /**
@@ -177,9 +171,7 @@ export function decodeList(bytes, itemDecoder) {
     const res = []
 
     if (isIndefList(stream)) {
-        if (decodeIndefHead(stream) != 4) {
-            throw new Error("unexpected")
-        }
+        void stream.shiftOne()
 
         let i = 0
         while (stream.peekOne() != 255) {
@@ -188,13 +180,13 @@ export function decodeList(bytes, itemDecoder) {
         }
 
         if (stream.shiftOne() != 255) {
-            throw new Error("unexpected")
+            throw new Error("invalid indef list termination byte")
         }
     } else {
-        const [m, n] = decodeHead(stream)
+        const [m, n] = decodeDefHead(stream)
 
         if (m != 4) {
-            throw new Error("unexpected")
+            throw new Error("invalid def list head byte")
         }
 
         for (let i = 0; i < Number(n); i++) {
@@ -212,9 +204,7 @@ export function decodeListLazy(bytes) {
     const stream = ByteStream.from(bytes)
 
     if (isIndefList(stream)) {
-        if (decodeIndefHead(stream) != 4) {
-            throw new Error("unexpected")
-        }
+        void stream.shiftOne()
 
         let i = 0
         let done = false
@@ -250,7 +240,7 @@ export function decodeListLazy(bytes) {
 
         return decodeItem
     } else {
-        const [m, n] = decodeHead(stream)
+        const [m, n] = decodeDefHead(stream)
 
         if (m != 4) {
             throw new Error("unexpected")
@@ -265,7 +255,7 @@ export function decodeListLazy(bytes) {
          */
         function decodeItem(itemDecoder) {
             if (i >= n) {
-                throw new Error("out-of-range")
+                throw new Error("end-of-list")
             }
 
             const itemDecoder_ = getIndexedDecoder(itemDecoder)
@@ -288,9 +278,7 @@ export function decodeListLazyOption(bytes) {
     const stream = ByteStream.from(bytes)
 
     if (isIndefList(stream)) {
-        if (decodeIndefHead(stream) != 4) {
-            throw new Error("unexpected")
-        }
+        void stream.shiftOne()
 
         let i = 0
         let done = false
@@ -326,7 +314,7 @@ export function decodeListLazyOption(bytes) {
 
         return decodeItem
     } else {
-        const [m, n] = decodeHead(stream)
+        const [m, n] = decodeDefHead(stream)
 
         if (m != 4) {
             throw new Error("unexpected")

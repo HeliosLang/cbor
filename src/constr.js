@@ -1,5 +1,5 @@
 import { ByteStream } from "@helios-lang/codec-utils"
-import { decodeHead, encodeHead } from "./head.js"
+import { decodeDefHead, encodeDefHead } from "./head.js"
 import { decodeInt, encodeInt } from "./int.js"
 import { decodeGeneric } from "./generic.js"
 import { decodeList, decodeListLazy, encodeList } from "./list.js"
@@ -23,7 +23,7 @@ import { decodeList, decodeListLazy, encodeList } from "./list.js"
 export function isConstr(bytes) {
     const stream = ByteStream.from(bytes)
 
-    const [m, n] = decodeHead(stream.copy())
+    const [m, n] = decodeDefHead(stream.copy())
 
     if (m == 6) {
         return (
@@ -43,12 +43,12 @@ function encodeConstrTag(tag) {
     if (tag < 0 || tag % 1.0 != 0.0) {
         throw new Error("invalid tag")
     } else if (tag >= 0 && tag <= 6) {
-        return encodeHead(6, 121n + BigInt(tag))
+        return encodeDefHead(6, 121n + BigInt(tag))
     } else if (tag >= 7 && tag <= 127) {
-        return encodeHead(6, 1280n + BigInt(tag - 7))
+        return encodeDefHead(6, 1280n + BigInt(tag - 7))
     } else {
-        return encodeHead(6, 102n)
-            .concat(encodeHead(4, 2n))
+        return encodeDefHead(6, 102n)
+            .concat(encodeDefHead(4, 2n))
             .concat(encodeInt(BigInt(tag)))
     }
 }
@@ -72,7 +72,7 @@ function decodeConstrTag(bytes) {
     const stream = ByteStream.from(bytes)
 
     // constr
-    const [m, n] = decodeHead(stream)
+    const [m, n] = decodeDefHead(stream)
 
     if (m != 6) {
         throw new Error("unexpected")
@@ -81,7 +81,7 @@ function decodeConstrTag(bytes) {
     if (n < 102n) {
         throw new Error(`unexpected encoded constr tag ${n}`)
     } else if (n == 102n) {
-        const [mCheck, nCheck] = decodeHead(stream)
+        const [mCheck, nCheck] = decodeDefHead(stream)
         if (mCheck != 4 || nCheck != 2n) {
             throw new Error("unexpected")
         }

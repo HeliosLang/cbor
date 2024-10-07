@@ -10,7 +10,7 @@ import { encodeIntBE, decodeIntBE, ByteStream } from "@helios-lang/codec-utils"
  * @param {IntLike} n - size parameter
  * @returns {number[]} - uint8 bytes
  */
-export function encodeHead(m, n) {
+export function encodeDefHead(m, n) {
     if (n <= 23n) {
         return [32 * m + Number(n)]
     } else if (n >= 24n && n <= 255n) {
@@ -47,7 +47,7 @@ export function encodeHead(m, n) {
  * @param {ByteArrayLike} bytes
  * @returns {[number, bigint]} - [majorType, n]
  */
-export function decodeHead(bytes) {
+export function decodeDefHead(bytes) {
     const stream = ByteStream.from(bytes)
 
     if (stream.isAtEnd()) {
@@ -84,10 +84,21 @@ export function decodeHead(bytes) {
         (m == 2 || m == 3 || m == 4 || m == 5 || m == 7) &&
         first % 32 == 31
     ) {
-        return [m, 31n] // n=31 is used an indefinite length marker for 2,3,4,5,7 (never for 0,1,6)
+        // head value 31 is used an indefinite length marker for 2,3,4,5,7 (never for 0,1,6)
+        throw new Error("unexpected header header (expected def instead of indef)")
     } else {
         throw new Error("bad header")
     }
+}
+
+/**
+ * @param {ByteArrayLike} bytes 
+ * @returns {number}
+ */
+export function peekMajorType(bytes) {
+    const stream = ByteStream.from(bytes)
+
+    return Math.trunc(stream.peekOne() / 32)
 }
 
 /**
@@ -96,18 +107,4 @@ export function decodeHead(bytes) {
  */
 export function encodeIndefHead(m) {
     return [32 * m + 31]
-}
-
-/**
- * @param {ByteArrayLike} bytes - cbor bytes
- * @returns {number} - majorType
- */
-export function decodeIndefHead(bytes) {
-    const stream = ByteStream.from(bytes)
-
-    const first = stream.shiftOne()
-
-    const m = Math.trunc((first - 31) / 32)
-
-    return m
 }

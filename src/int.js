@@ -1,5 +1,5 @@
 import { encodeIntBE, decodeIntBE, ByteStream } from "@helios-lang/codec-utils"
-import { decodeHead, encodeHead } from "./head.js"
+import { decodeDefHead, encodeDefHead } from "./head.js"
 import { decodeBytes, encodeBytes } from "./bytes.js"
 
 /**
@@ -14,7 +14,7 @@ import { decodeBytes, encodeBytes } from "./bytes.js"
 export function isInt(bytes) {
     const stream = ByteStream.from(bytes)
 
-    const [m, n] = decodeHead(stream)
+    const [m, n] = decodeDefHead(stream)
 
     if (m == 0 || m == 1) {
         return true
@@ -34,13 +34,13 @@ export function encodeInt(n) {
     if (typeof n == "number") {
         return encodeInt(BigInt(n))
     } else if (n >= 0n && n <= (2n << 63n) - 1n) {
-        return encodeHead(0, n)
+        return encodeDefHead(0, n)
     } else if (n >= 2n << 63n) {
-        return encodeHead(6, 2).concat(encodeBytes(encodeIntBE(n)))
+        return encodeDefHead(6, 2).concat(encodeBytes(encodeIntBE(n)))
     } else if (n <= -1n && n >= -(2n << 63n)) {
-        return encodeHead(1, -n - 1n)
+        return encodeDefHead(1, -n - 1n)
     } else {
-        return encodeHead(6, 3).concat(encodeBytes(encodeIntBE(-n - 1n)))
+        return encodeDefHead(6, 3).concat(encodeBytes(encodeIntBE(-n - 1n)))
     }
 }
 
@@ -52,7 +52,7 @@ export function encodeInt(n) {
 export function decodeInt(bytes) {
     const stream = ByteStream.from(bytes)
 
-    const [m, n] = decodeHead(stream)
+    const [m, n] = decodeDefHead(stream)
 
     if (m == 0) {
         return n

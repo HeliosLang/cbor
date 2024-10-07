@@ -1,5 +1,5 @@
 import { ByteStream } from "@helios-lang/codec-utils"
-import { decodeHead, encodeHead, encodeIndefHead } from "./head.js"
+import { decodeDefHead, encodeDefHead, encodeIndefHead, peekMajorType } from "./head.js"
 import { decodeGeneric, encodeGeneric } from "./generic.js"
 
 /**
@@ -20,11 +20,17 @@ import { decodeGeneric, encodeGeneric } from "./generic.js"
  * @returns {boolean}
  */
 export function isMap(bytes) {
+    return peekMajorType(bytes) == 5
+}
+
+/**
+ * @param {ByteArrayLike} bytes
+ * @returns {boolean}
+ */
+function isIndefMap(bytes) {
     const stream = ByteStream.from(bytes)
 
-    const [m, _] = decodeHead(stream.copy())
-
-    return m == 5
+    return 5 * 32 + 31 == stream.peekOne()
 }
 
 /**
@@ -54,7 +60,7 @@ function encodeMapInternal(pairList) {
  * @returns {number[]}
  */
 export function encodeDefMap(pairList) {
-    return encodeHead(5, BigInt(pairList.length)).concat(
+    return encodeDefHead(5, BigInt(pairList.length)).concat(
         encodeMapInternal(pairList)
     )
 }
@@ -146,15 +152,17 @@ function decodeIndefMap(stream, keyDecoder, valueDecoder) {
 export function decodeMap(bytes, keyDecoder, valueDecoder) {
     const stream = ByteStream.from(bytes)
 
-    const [m, n] = decodeHead(stream)
+    if (isIndefMap(stream)) {
+        void stream.shiftOne()
 
-    if (m != 5) {
-        throw new Error("invalid map")
-    }
-
-    if (m == 5 && n == 31n) {
         return decodeIndefMap(stream, keyDecoder, valueDecoder)
     } else {
+        const [m, n] = decodeDefHead(stream)
+
+        if (m != 5) {
+            throw new Error("invalid def map")
+        }
+
         return decodeDefMap(stream, Number(n), keyDecoder, valueDecoder)
     }
 }

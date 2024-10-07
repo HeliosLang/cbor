@@ -1,7 +1,9 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
 import { bytesToHex, hexToBytes } from "@helios-lang/codec-utils"
-import { decodeBytes, encodeBytes, isBytes } from "./bytes.js"
+import { decodeBytes, encodeBytes, isBytes, isDefBytes } from "./bytes.js"
+import { encodeInt } from "./int.js"
+import { encodeDefList } from "./list.js"
 
 describe(isBytes.name, () => {
     it("fails for empty bytes", () => {
@@ -14,6 +16,24 @@ describe(isBytes.name, () => {
 
     it("returns true for #4e4d01000033222220051200120011", () => {
         strictEqual(isBytes(hexToBytes("4e4d01000033222220051200120011")), true)
+    })
+})
+
+describe(isDefBytes.name, () => {
+    it("fails for empty bytes", () => {
+        throws(() => isDefBytes([]))
+    })
+
+    it("returns false for [0]", () => {
+        strictEqual(isDefBytes([0]), false)
+    })
+
+    it("returns false for indef bytes", () => {
+        strictEqual(isDefBytes([2 * 32 + 31]), false)
+    })
+
+    it("returns true for #4e4d01000033222220051200120011", () => {
+        strictEqual(isDefBytes(hexToBytes("4e4d01000033222220051200120011")), true)
     })
 })
 
@@ -31,6 +51,12 @@ describe(decodeBytes.name, () => {
             decodeBytes(hexToBytes("4e4d01000033222220051200120011")),
             hexToBytes("4d01000033222220051200120011")
         )
+    })
+
+    it("fails when trying to decode a list", () => {
+        throws(() => {
+            decodeBytes(encodeDefList([encodeInt(0)]))
+        })
     })
 })
 

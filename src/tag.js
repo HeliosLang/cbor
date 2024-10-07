@@ -1,5 +1,5 @@
 import { ByteStream } from "@helios-lang/codec-utils"
-import { decodeHead, encodeHead } from "./head.js"
+import { decodeDefHead, encodeDefHead } from "./head.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
@@ -18,7 +18,7 @@ export function encodeTag(tag) {
         throw new Error("can't encode negative tag")
     }
 
-    return encodeHead(6, tag)
+    return encodeDefHead(6, tag)
 }
 
 /**
@@ -28,7 +28,7 @@ export function encodeTag(tag) {
 export function decodeTag(bytes) {
     const stream = ByteStream.from(bytes)
 
-    const [m, n] = decodeHead(stream)
+    const [m, n] = decodeDefHead(stream)
 
     if (m != 6) {
         throw new Error("unexpected")

@@ -1,11 +1,11 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
 import { hexToBytes } from "@helios-lang/codec-utils"
-import { decodeConstr, encodeConstr, isConstr } from "./constr.js"
 import { decodeBytes, encodeBytes } from "./bytes.js"
-import { decodeList, encodeList } from "./list.js"
+import { decodeConstr, encodeConstr, isConstr } from "./constr.js"
+import { encodeDefHead } from "./head.js"
 import { decodeInt, encodeInt } from "./int.js"
-import { encodeHead } from "./head.js"
+import { decodeList, encodeList } from "./list.js"
 
 const tagsTestVector = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110,
@@ -217,7 +217,7 @@ describe("bad constr tags", () => {
         it(`fails decoding tag ${t}`, () => {
             throws(() =>
                 decodeConstr(
-                    encodeHead(6, BigInt(t)).concat(encodeList([])),
+                    encodeDefHead(6, BigInt(t)).concat(encodeList([])),
                     []
                 )
             )
@@ -227,8 +227,8 @@ describe("bad constr tags", () => {
     it(`fails for tag 102 with bad second header`, () => {
         throws(() =>
             decodeConstr(
-                encodeHead(6, 102n)
-                    .concat(encodeHead(0, 0n))
+                encodeDefHead(6, 102n)
+                    .concat(encodeDefHead(0, 0n))
                     .concat(encodeInt(0n))
                     .concat(encodeList([])),
                 []

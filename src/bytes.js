@@ -1,5 +1,5 @@
 import { ByteStream } from "@helios-lang/codec-utils"
-import { decodeHead, encodeHead, encodeIndefHead } from "./head.js"
+import { decodeDefHead, encodeDefHead, encodeIndefHead, peekMajorType } from "./head.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
@@ -12,9 +12,9 @@ import { decodeHead, encodeHead, encodeIndefHead } from "./head.js"
 export function isDefBytes(bytes) {
     const stream = ByteStream.from(bytes)
 
-    const [m, _] = decodeHead(stream.copy())
+    const m = peekMajorType(stream)
 
-    return m == 2
+    return m == 2 && stream.peekOne() != 2*32 + 31
 }
 
 /**
@@ -32,7 +32,7 @@ export function isIndefBytes(bytes) {
  * @returns {boolean}
  */
 export function isBytes(bytes) {
-    return isDefBytes(bytes) || isIndefBytes(bytes)
+    return peekMajorType(bytes) == 2
 }
 
 /**
@@ -47,7 +47,7 @@ export function encodeBytes(bytes, splitIntoChunks = false) {
     bytes = bytes.slice()
 
     if (bytes.length <= 64 || !splitIntoChunks) {
-        const head = encodeHead(2, BigInt(bytes.length))
+        const head = encodeDefHead(2, BigInt(bytes.length))
         return head.concat(bytes)
     } else {
         let res = encodeIndefHead(2)
@@ -55,7 +55,7 @@ export function encodeBytes(bytes, splitIntoChunks = false) {
         while (bytes.length > 0) {
             const chunk = bytes.splice(0, 64)
 
-            res = res.concat(encodeHead(2, BigInt(chunk.length))).concat(chunk)
+            res = res.concat(encodeDefHead(2, BigInt(chunk.length))).concat(chunk)
         }
 
         res.push(255)
@@ -73,8 +73,9 @@ export function decodeBytes(bytes) {
     const stream = ByteStream.from(bytes)
 
     if (isIndefBytes(bytes)) {
-        // multiple chunks
         void stream.shiftOne()
+
+        // multiple chunks
 
         /**
          * @type {number[]}
@@ -82,7 +83,7 @@ export function decodeBytes(bytes) {
         let res = []
 
         while (stream.peekOne() != 255) {
-            const [_, n] = decodeHead(stream)
+            const [_, n] = decodeDefHead(stream)
             if (n > 64n) {
                 throw new Error("bytearray chunk too large")
             }
@@ -91,12 +92,16 @@ export function decodeBytes(bytes) {
         }
 
         if (stream.shiftOne() != 255) {
-            throw new Error("unexpected")
+            throw new Error("invalid indef bytes termination byte")
         }
 
         return res
     } else {
-        const [_, n] = decodeHead(stream)
+        const [m, n] = decodeDefHead(stream)
+
+        if (m != 2) {
+            throw new Error("invalid def bytes")
+        }
 
         return stream.shiftMany(Number(n))
     }

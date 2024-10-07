@@ -4,7 +4,7 @@ import {
     encodeUtf8,
     isValidUtf8
 } from "@helios-lang/codec-utils"
-import { decodeHead, encodeHead } from "./head.js"
+import { decodeDefHead, encodeDefHead, peekMajorType } from "./head.js"
 import { decodeList, encodeDefList, isDefList } from "./list.js"
 
 /**
@@ -16,11 +16,7 @@ import { decodeList, encodeDefList, isDefList } from "./list.js"
  * @returns {boolean}
  */
 export function isString(bytes) {
-    const stream = ByteStream.from(bytes)
-
-    const [m, _] = decodeHead(stream.copy())
-
-    return m == 3
+    return peekMajorType(bytes) == 3
 }
 
 /**
@@ -54,13 +50,13 @@ export function encodeString(str, split = false) {
                 maxChunkLength--
             }
 
-            chunks.push(encodeHead(3, BigInt(chunk.length)).concat(chunk))
+            chunks.push(encodeDefHead(3, BigInt(chunk.length)).concat(chunk))
             i += chunk.length
         }
 
         return encodeDefList(chunks)
     } else {
-        return encodeHead(3, BigInt(bytes.length)).concat(bytes)
+        return encodeDefHead(3, BigInt(bytes.length)).concat(bytes)
     }
 }
 
@@ -71,7 +67,7 @@ export function encodeString(str, split = false) {
 function decodeStringInternal(bytes) {
     const stream = ByteStream.from(bytes)
 
-    const [m, n] = decodeHead(stream)
+    const [m, n] = decodeDefHead(stream)
 
     if (m !== 3) {
         throw new Error("unexpected")

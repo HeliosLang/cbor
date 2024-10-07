@@ -56,8 +56,7 @@ export function decodeTuple(bytes, itemDecoders, optionalDecoders = []) {
             if (!decoder) {
                 throw new Error(
                     `expected at most ${
-                        itemDecoders.length +
-                        (optionalDecoders ? optionalDecoders.length : 0)
+                        itemDecoders.length + optionalDecoders.length
                     } items, got more than ${i}`
                 )
             }
