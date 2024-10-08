@@ -9,7 +9,7 @@ import { decodeList, decodeListLazy, encodeDefList, isList } from "./list.js"
 
 /**
  * @template T
- * @typedef {import("./generic.js").Decoder<T>} Decoder<T>
+ * @typedef {import("./generic.js").Decoder<T>} Decoder
  */
 
 /**

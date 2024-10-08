@@ -14,12 +14,12 @@ import {
 
 /**
  * @template T
- * @typedef {import("./generic.js").Decodeable<T>} Decodeable<T>
+ * @typedef {import("./generic.js").Decodeable<T>} Decodeable
  */
 
 /**
  * @template T
- * @typedef {import("./generic.js").Decoder<T>} Decoder<T>
+ * @typedef {import("./generic.js").Decoder<T>} Decoder
  */
 
 /**
@@ -28,7 +28,7 @@ import {
 
 /**
  * @template T
- * @typedef {(stream: ByteStream, index: number) => T} IndexedDecoder<T>
+ * @typedef {(stream: ByteStream, index: number) => T} IndexedDecoder
  */
 
 /**

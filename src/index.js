@@ -53,3 +53,22 @@ export { decodeString, encodeString, isString } from "./string.js"
 export { decodeTag, encodeTag } from "./tag.js"
 export { decodeTagged } from "./tagged.js"
 export { decodeTuple, decodeTupleLazy, encodeTuple, isTuple } from "./tuple.js"
+
+/**
+ * @typedef {import("./generic.js").Encodeable}
+ */
+
+/**
+ * @template T
+ * @typedef {import("./generic.js").Decoder<T>} Decoder
+ */
+
+/**
+ * @template T
+ * @typedef {import("./generic.js").Decodeable<T>} Decodeable
+ */
+
+/**
+ * @template T
+ * @typedef {import("./list.js").IndexedDecoder<T>} IndexedDecoder
+ */

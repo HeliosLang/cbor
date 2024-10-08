@@ -13,7 +13,7 @@ import {
 
 /**
  * @template T
- * @typedef {import("./generic.js").Decoder<T>} Decoder<T>
+ * @typedef {import("./generic.js").Decoder<T>} Decoder
  */
 
 /**
