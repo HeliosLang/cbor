@@ -1,6 +1,6 @@
+import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
 import { decodeNull, encodeNull, isNull } from "./null.js"
-import { deepEqual, strictEqual, throws } from "node:assert"
 
 const NULL_CBOR_BYTE = 0xf6
 

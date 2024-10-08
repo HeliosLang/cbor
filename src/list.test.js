@@ -1,9 +1,14 @@
-import { describe, it } from "node:test"
-
 import { deepEqual, strictEqual, throws } from "node:assert"
+import { describe, it } from "node:test"
 import { ByteStream, hexToBytes } from "@helios-lang/codec-utils"
-import { decodeList, decodeListLazy, decodeListLazyOption, encodeList, isList } from "./list.js"
 import { decodeInt } from "./int.js"
+import {
+    decodeList,
+    decodeListLazy,
+    decodeListLazyOption,
+    encodeList,
+    isList
+} from "./list.js"
 
 describe(isList.name, () => {
     it("returns true for [0x80]", () => {
@@ -169,8 +174,7 @@ describe(decodeListLazyOption.name, () => {
     it("returns null when calling the callback for [0x80] (i.e. empty list)", () => {
         const callback = decodeListLazyOption([0x80])
 
-        strictEqual(
-            callback(decodeInt), null)
+        strictEqual(callback(decodeInt), null)
     })
 
     it("succeeds when not calling callback for [0x9f, 0xff] (i.e. empty list)", () => {
@@ -180,8 +184,7 @@ describe(decodeListLazyOption.name, () => {
     it("returns null when calling the callback for [0x9f, 0xff] (i.e. empty list)", () => {
         const callback = decodeListLazyOption([0x9f, 0xff])
 
-        strictEqual(
-            callback(decodeInt), null)
+        strictEqual(callback(decodeInt), null)
     })
 
     it("returns [1n,2n,3n] for #83010203", () => {
@@ -191,9 +194,7 @@ describe(decodeListLazyOption.name, () => {
         strictEqual(callback(decodeInt), 2n)
         strictEqual(callback(decodeInt), 3n)
 
-        strictEqual(
-            callback(decodeInt)
-        , null)
+        strictEqual(callback(decodeInt), null)
     })
 
     describe("returns [1n,2n,3n,4n, ..., 25n]", () => {
@@ -210,9 +211,7 @@ describe(decodeListLazyOption.name, () => {
                     strictEqual(callback(decodeInt), BigInt(i))
                 }
 
-                strictEqual(
-                    callback(decodeInt)
-                , null)
+                strictEqual(callback(decodeInt), null)
             })
         }
     })

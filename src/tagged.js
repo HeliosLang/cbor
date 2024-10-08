@@ -1,11 +1,11 @@
+import { ByteStream } from "@helios-lang/codec-utils"
+import { decodeConstrLazy } from "./constr.js"
+import { decodeInt } from "./int.js"
+import { decodeListLazy, isList } from "./list.js"
+
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
  */
-
-import { ByteStream } from "@helios-lang/codec-utils"
-import { decodeInt } from "./int.js"
-import { decodeListLazy, isList } from "./list.js"
-import { decodeConstrLazy } from "./constr.js"
 
 /**
  * @param {ByteArrayLike} bytes

@@ -1,8 +1,9 @@
 import { ByteStream } from "@helios-lang/codec-utils"
-import { decodeNull, encodeNull, isNull } from "./null.js"
 import { None } from "@helios-lang/type-utils"
 import { decodeGeneric, encodeGeneric } from "./generic.js"
 import { decodeListLazyOption, encodeList } from "./list.js"
+import { decodeNull, encodeNull, isNull } from "./null.js"
+
 /**
  * @template T
  * @typedef {import("./generic.js").Decoder<T>} Decoder

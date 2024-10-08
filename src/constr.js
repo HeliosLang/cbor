@@ -1,12 +1,13 @@
 import { ByteStream } from "@helios-lang/codec-utils"
+import { decodeGeneric } from "./generic.js"
 import { decodeDefHead, encodeDefHead } from "./head.js"
 import { decodeInt, encodeInt } from "./int.js"
-import { decodeGeneric } from "./generic.js"
 import { decodeList, decodeListLazy, encodeList } from "./list.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
  */
+
 /**
  * @template T
  * @typedef {import("./generic.js").Decoder<T>} Decoder<T>

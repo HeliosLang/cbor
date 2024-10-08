@@ -1,8 +1,8 @@
 import { ByteStream } from "@helios-lang/codec-utils"
-import { decodeInt, encodeInt } from "./int.js"
-import { decodeString, encodeString } from "./string.js"
-import { isMap, encodeDefMap, decodeMap } from "./map.js"
 import { decodeGeneric } from "./generic.js"
+import { decodeInt, encodeInt } from "./int.js"
+import { isMap, encodeDefMap, decodeMap } from "./map.js"
+import { decodeString, encodeString } from "./string.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike

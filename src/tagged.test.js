@@ -24,7 +24,9 @@ describe(decodeTagged.name, () => {
     })
 
     it("returns tag 0 for d87982581cbd99a373075d42fe4ac9109515e46303d0940cb9620bf058b87986a9d87980 (plain const)", () => {
-        const [tag, _] = decodeTagged("d87982581cbd99a373075d42fe4ac9109515e46303d0940cb9620bf058b87986a9d87980")
+        const [tag, _] = decodeTagged(
+            "d87982581cbd99a373075d42fe4ac9109515e46303d0940cb9620bf058b87986a9d87980"
+        )
 
         strictEqual(tag, 0)
     })

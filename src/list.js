@@ -1,12 +1,12 @@
 import { ByteStream } from "@helios-lang/codec-utils"
+import { None } from "@helios-lang/type-utils"
+import { encodeGeneric } from "./generic.js"
 import {
     decodeDefHead,
     encodeDefHead,
     encodeIndefHead,
     peekMajorType
 } from "./head.js"
-import { encodeGeneric } from "./generic.js"
-import { None } from "@helios-lang/type-utils"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
@@ -70,7 +70,7 @@ export function isIndefList(bytes) {
 export function isDefList(bytes) {
     const stream = ByteStream.from(bytes)
 
-    return peekMajorType(stream) == 4 && (stream.peekOne() != 4*32 + 31)
+    return peekMajorType(stream) == 4 && stream.peekOne() != 4 * 32 + 31
 }
 
 /**

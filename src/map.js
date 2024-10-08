@@ -1,6 +1,11 @@
 import { ByteStream } from "@helios-lang/codec-utils"
-import { decodeDefHead, encodeDefHead, encodeIndefHead, peekMajorType } from "./head.js"
 import { decodeGeneric, encodeGeneric } from "./generic.js"
+import {
+    decodeDefHead,
+    encodeDefHead,
+    encodeIndefHead,
+    peekMajorType
+} from "./head.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike

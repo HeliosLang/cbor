@@ -85,14 +85,16 @@ export function decodeDefHead(bytes) {
         first % 32 == 31
     ) {
         // head value 31 is used an indefinite length marker for 2,3,4,5,7 (never for 0,1,6)
-        throw new Error("unexpected header header (expected def instead of indef)")
+        throw new Error(
+            "unexpected header header (expected def instead of indef)"
+        )
     } else {
         throw new Error("bad header")
     }
 }
 
 /**
- * @param {ByteArrayLike} bytes 
+ * @param {ByteArrayLike} bytes
  * @returns {number}
  */
 export function peekMajorType(bytes) {

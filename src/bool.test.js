@@ -1,6 +1,6 @@
+import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
 import { decodeBool, encodeBool, isBool } from "./bool.js"
-import { deepEqual, strictEqual, throws } from "node:assert"
 
 const FALSE_CBOR_BYTE = 0xf4
 const TRUE_CBOR_BYTE = 0xf5

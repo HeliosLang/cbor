@@ -33,7 +33,10 @@ describe(isDefBytes.name, () => {
     })
 
     it("returns true for #4e4d01000033222220051200120011", () => {
-        strictEqual(isDefBytes(hexToBytes("4e4d01000033222220051200120011")), true)
+        strictEqual(
+            isDefBytes(hexToBytes("4e4d01000033222220051200120011")),
+            true
+        )
     })
 })
 

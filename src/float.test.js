@@ -1,4 +1,6 @@
+import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
+import { bytesToHex } from "@helios-lang/codec-utils"
 import {
     decodeFloat,
     decodeFloat16,
@@ -12,8 +14,7 @@ import {
     isFloat32,
     isFloat64
 } from "./float.js"
-import { deepEqual, strictEqual, throws } from "node:assert"
-import { bytesToHex } from "@helios-lang/codec-utils"
+
 /**
  * Taken from https://github.com/cbor/test-vectors/blob/master/appendix_a.json
  * @type {[number[], number][]}
@@ -74,7 +75,7 @@ describe(decodeFloat16.name, () => {
             throws(() => {
                 decodeFloat64(bytes)
             })
-        }) 
+        })
 })
 
 describe(decodeFloat32.name, () => {

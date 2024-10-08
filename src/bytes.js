@@ -1,5 +1,10 @@
 import { ByteStream } from "@helios-lang/codec-utils"
-import { decodeDefHead, encodeDefHead, encodeIndefHead, peekMajorType } from "./head.js"
+import {
+    decodeDefHead,
+    encodeDefHead,
+    encodeIndefHead,
+    peekMajorType
+} from "./head.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
@@ -14,7 +19,7 @@ export function isDefBytes(bytes) {
 
     const m = peekMajorType(stream)
 
-    return m == 2 && stream.peekOne() != 2*32 + 31
+    return m == 2 && stream.peekOne() != 2 * 32 + 31
 }
 
 /**
@@ -55,7 +60,9 @@ export function encodeBytes(bytes, splitIntoChunks = false) {
         while (bytes.length > 0) {
             const chunk = bytes.splice(0, 64)
 
-            res = res.concat(encodeDefHead(2, BigInt(chunk.length))).concat(chunk)
+            res = res
+                .concat(encodeDefHead(2, BigInt(chunk.length)))
+                .concat(chunk)
         }
 
         res.push(255)

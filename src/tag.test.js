@@ -1,8 +1,8 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
 import { hexToBytes, ByteStream } from "@helios-lang/codec-utils"
-import { decodeTag, encodeTag } from "./tag.js"
 import { decodeInt, encodeInt } from "./int.js"
+import { decodeTag, encodeTag } from "./tag.js"
 
 describe(encodeTag.name, () => {
     it("returns #c11a514b67b0 for 1(1363896240n)", () => {

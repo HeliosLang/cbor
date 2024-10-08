@@ -1,6 +1,6 @@
 import { encodeIntBE, decodeIntBE, ByteStream } from "@helios-lang/codec-utils"
-import { decodeDefHead, encodeDefHead } from "./head.js"
 import { decodeBytes, encodeBytes } from "./bytes.js"
+import { decodeDefHead, encodeDefHead } from "./head.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike

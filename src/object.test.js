@@ -1,13 +1,17 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
 import { hexToBytes } from "@helios-lang/codec-utils"
-import { decodeObjectIKey, decodeObjectSKey, isObject } from "./object.js"
+import { decodeBool } from "./bool.js"
 import { decodeInt, encodeInt } from "./int.js"
 import { decodeList } from "./list.js"
+import {
+    decodeObjectIKey,
+    decodeObjectSKey,
+    encodeObjectIKey,
+    encodeObjectSKey,
+    isObject
+} from "./object.js"
 import { decodeString, encodeString } from "./string.js"
-import { decodeBool } from "./bool.js"
-import { encodeObjectIKey } from "./object.js"
-import { encodeObjectSKey } from "./object.js"
 
 describe(isObject.name, () => {
     it("fails for []", () => {
