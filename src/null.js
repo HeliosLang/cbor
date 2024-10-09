@@ -1,13 +1,13 @@
 import { ByteStream } from "@helios-lang/codec-utils"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
  */
 
 const NULL_BYTE = 246 // m = 7, n = 22
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isNull(bytes) {
@@ -28,7 +28,7 @@ export function encodeNull(_null = null) {
 /**
  * Checks if next element in `bytes` is a `null`.
  * Throws an error if it isn't.
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {null}
  */
 export function decodeNull(bytes) {

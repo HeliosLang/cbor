@@ -5,20 +5,17 @@ import { decodeInt, encodeInt } from "./int.js"
 import { decodeList, decodeListLazy, encodeList } from "./list.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
- */
-
-/**
  * @template T
  * @typedef {import("./generic.js").Decoder<T>} Decoder<T>
  */
 
 /**
+ * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
  * @typedef {import("./generic.js").Encodeable} Encodeable
  */
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isConstr(bytes) {
@@ -66,7 +63,7 @@ export function encodeConstr(tag, fields) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {number}
  */
 function decodeConstrTag(bytes) {
@@ -104,7 +101,7 @@ function decodeConstrTag(bytes) {
 /**
  * The homogenous field type case is used by the uplc ConstrData (undetermined number of UplcData items)
  * @template {[Decoder<any>, ...Decoder<any>[]] | Array<Decoder<any>> | Decoder<any>} Decoders
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * Note: the conditional tuple check loses the tupleness if we just check against array, hence first we check against a tuple, and then an array (needed for the empty case)
  * @param {Decoders extends [Decoder<any>, ...Decoder<any>[]] ? [...Decoders] : Decoders extends Array<any> ? [...Decoders] : Decoders} fieldDecoder - array for heterogenous item types, single function for homogenous item types
  * @returns {[
@@ -150,7 +147,7 @@ export function decodeConstr(bytes, fieldDecoder) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  */
 export function decodeConstrLazy(bytes) {
     const stream = ByteStream.from(bytes)

@@ -1,6 +1,6 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
-import { ByteStream, hexToBytes } from "@helios-lang/codec-utils"
+import { hexToBytes } from "@helios-lang/codec-utils"
 import { decodeInt } from "./int.js"
 import {
     decodeList,
@@ -9,6 +9,10 @@ import {
     encodeList,
     isList
 } from "./list.js"
+
+/**
+ * @typedef {import("@helios-lang/codec-utils").ByteStreamI} ByteStreamI
+ */
 
 describe(isList.name, () => {
     it("returns true for [0x80]", () => {
@@ -57,7 +61,7 @@ describe(decodeList.name, () => {
     it("returns [1n,2n,3n] for #83010203 with fromCbor method", () => {
         class TestInt {
             /**
-             * @param {ByteStream} stream
+             * @param {ByteStreamI} stream
              * @returns {bigint}
              */
             static fromCbor(stream) {

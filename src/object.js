@@ -5,17 +5,17 @@ import { isMap, encodeDefMap, decodeMap } from "./map.js"
 import { decodeString, encodeString } from "./string.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
- * @typedef {import("./generic.js").Encodeable} Encodeable
- */
-
-/**
  * @template T
  * @typedef {import("./generic.js").Decoder<T>} Decoder
  */
 
 /**
- * @param {ByteArrayLike} bytes
+ * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
+ * @typedef {import("./generic.js").Encodeable} Encodeable
+ */
+
+/**
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isObject(bytes) {
@@ -69,7 +69,7 @@ export function encodeObjectSKey(object) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @param {Decoder<number | string>} keyDecoder
  * @param {any} fieldDecoders
  * @returns {any}
@@ -105,7 +105,7 @@ function decodeObjectTypeless(bytes, keyDecoder, fieldDecoders) {
  * Decodes a CBOR encoded object with integer keys.
  * For each field a decoder is called which takes the field index and the field bytes as arguments.
  * @template {{[key: number]: Decoder<any>}} Decoders
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @param {Decoders} fieldDecoders
  * @returns {{[D in keyof Decoders]+?: Decoders[D] extends Decoder<infer T> ? T : never}}
  */
@@ -121,7 +121,7 @@ export function decodeObjectIKey(bytes, fieldDecoders) {
  * Decodes a CBOR encoded object with string keys.
  * For each field a decoder is called which takes the field index and the field bytes as arguments.
  * @template {{[key: string]: Decoder<any>}} Decoders
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @param {Decoders} fieldDecoders
  * @returns {{[D in keyof Decoders]+?: Decoders[D] extends Decoder<infer T> ? T : never}}
  */

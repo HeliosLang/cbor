@@ -8,11 +8,11 @@ import { decodeDefHead, encodeDefHead, peekMajorType } from "./head.js"
 import { decodeList, encodeDefList, isDefList } from "./list.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
  */
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isString(bytes) {
@@ -61,7 +61,7 @@ export function encodeString(str, split = false) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {string}
  */
 function decodeStringInternal(bytes) {
@@ -77,7 +77,7 @@ function decodeStringInternal(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {string}
  */
 export function decodeString(bytes) {

@@ -1,6 +1,6 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
-import { ByteStream, hexToBytes } from "@helios-lang/codec-utils"
+import { hexToBytes } from "@helios-lang/codec-utils"
 import { decodeInt, encodeInt } from "./int.js"
 import { decodeList } from "./list.js"
 import { decodeObjectSKey, encodeObjectSKey } from "./object.js"
@@ -8,7 +8,8 @@ import { decodeString, encodeString } from "./string.js"
 import { decodeTuple, decodeTupleLazy, encodeTuple, isTuple } from "./tuple.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
+ * @typedef {import("@helios-lang/codec-utils").ByteStreamI} ByteStreamI
  */
 
 describe(isTuple.name, () => {
@@ -80,7 +81,7 @@ describe(decodeTuple.name, () => {
             [decodeString],
             [
                 /**
-                 * @param {ByteArrayLike} stream
+                 * @param {BytesLike} stream
                  * @returns {{b?: string}}
                  */
                 (stream) => decodeObjectSKey(stream, { b: decodeString })
@@ -101,7 +102,7 @@ describe(decodeTuple.name, () => {
                 [decodeString],
                 [
                     /**
-                     * @param {ByteArrayLike} stream
+                     * @param {BytesLike} stream
                      * @returns {{b?: string}}
                      */
                     (stream) => decodeObjectSKey(stream, { b: decodeString })
@@ -113,7 +114,7 @@ describe(decodeTuple.name, () => {
     it('returns ["a", {b: "c"}] for #826161bf61626163ff with fromCbor methods', () => {
         class TestString {
             /**
-             * @param {ByteStream} stream
+             * @param {ByteStreamI} stream
              * @returns {string}
              */
             static fromCbor(stream) {
@@ -123,7 +124,7 @@ describe(decodeTuple.name, () => {
 
         class TestObject {
             /**
-             * @param {ByteStream} stream
+             * @param {ByteStreamI} stream
              * @returns {{b?: string}}
              */
             static fromCbor(stream) {

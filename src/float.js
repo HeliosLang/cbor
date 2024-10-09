@@ -9,7 +9,7 @@ import {
 } from "@helios-lang/codec-utils"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
  */
 
 const FLOAT16_HEAD = 249
@@ -17,7 +17,7 @@ const FLOAT32_HEAD = 250
 const FLOAT64_HEAD = 251
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isFloat16(bytes) {
@@ -26,7 +26,7 @@ export function isFloat16(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isFloat32(bytes) {
@@ -35,7 +35,7 @@ export function isFloat32(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isFloat64(bytes) {
@@ -44,7 +44,7 @@ export function isFloat64(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isFloat(bytes) {
@@ -54,7 +54,7 @@ export function isFloat(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {number}
  */
 export function decodeFloat16(bytes) {
@@ -70,7 +70,7 @@ export function decodeFloat16(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {number}
  */
 export function decodeFloat32(bytes) {
@@ -86,7 +86,7 @@ export function decodeFloat32(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {number}
  */
 export function decodeFloat64(bytes) {
@@ -102,7 +102,7 @@ export function decodeFloat64(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {number}
  */
 export function decodeFloat(bytes) {

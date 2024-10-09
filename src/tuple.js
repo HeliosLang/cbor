@@ -3,17 +3,17 @@ import { decodeGeneric } from "./generic.js"
 import { decodeList, decodeListLazy, encodeDefList, isList } from "./list.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
- * @typedef {import("./generic.js").Encodeable} Encodeable
- */
-
-/**
  * @template T
  * @typedef {import("./generic.js").Decoder<T>} Decoder
  */
 
 /**
- * @param {ByteArrayLike} bytes
+ * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
+ * @typedef {import("./generic.js").Encodeable} Encodeable
+ */
+
+/**
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isTuple(bytes) {
@@ -31,7 +31,7 @@ export function encodeTuple(tuple) {
 /**
  * @template {Array<Decoder<any>>} Decoders
  * @template {Array<Decoder<any>>} [OptionalDecoders=[]] - uninferable in the default case, so must be default to empty tuple
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @param {[...Decoders]} itemDecoders
  * @param {[...OptionalDecoders] | []} optionalDecoders - default to empty tuple
  * @returns {[
@@ -75,7 +75,7 @@ export function decodeTuple(bytes, itemDecoders, optionalDecoders = []) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  */
 export function decodeTupleLazy(bytes) {
     return decodeListLazy(bytes)

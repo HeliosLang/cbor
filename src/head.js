@@ -1,7 +1,7 @@
 import { encodeIntBE, decodeIntBE, ByteStream } from "@helios-lang/codec-utils"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
  * @typedef {import("@helios-lang/codec-utils").IntLike} IntLike
  */
 
@@ -44,7 +44,7 @@ export function encodeDefHead(m, n) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {[number, bigint]} - [majorType, n]
  */
 export function decodeDefHead(bytes) {
@@ -94,7 +94,7 @@ export function decodeDefHead(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {number}
  */
 export function peekMajorType(bytes) {

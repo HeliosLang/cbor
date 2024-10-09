@@ -7,11 +7,11 @@ import {
 } from "./head.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
  */
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isDefBytes(bytes) {
@@ -23,7 +23,7 @@ export function isDefBytes(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isIndefBytes(bytes) {
@@ -33,7 +33,7 @@ export function isIndefBytes(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isBytes(bytes) {
@@ -73,7 +73,7 @@ export function encodeBytes(bytes, splitIntoChunks = false) {
 
 /**
  * Unwraps a CBOR encoded list of bytes
- * @param {ByteArrayLike} bytes - cborbytes, mutated to form remaining
+ * @param {BytesLike} bytes - cborbytes, mutated to form remaining
  * @returns {number[]} - byteArray
  */
 export function decodeBytes(bytes) {

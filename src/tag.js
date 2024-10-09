@@ -2,7 +2,7 @@ import { ByteStream } from "@helios-lang/codec-utils"
 import { decodeDefHead, encodeDefHead } from "./head.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
  * @typedef {import("@helios-lang/codec-utils").IntLike} IntLike
  */
 
@@ -22,7 +22,7 @@ export function encodeTag(tag) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {bigint}
  */
 export function decodeTag(bytes) {

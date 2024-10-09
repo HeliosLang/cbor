@@ -9,10 +9,6 @@ import {
 } from "./head.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
- */
-
-/**
  * @template T
  * @typedef {import("./generic.js").Decodeable<T>} Decodeable
  */
@@ -23,12 +19,14 @@ import {
  */
 
 /**
+ * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
+ * @typedef {import("@helios-lang/codec-utils").ByteStreamI} ByteStreamI
  * @typedef {import("./generic.js").Encodeable} Encodeable
  */
 
 /**
  * @template T
- * @typedef {(stream: ByteStream, index: number) => T} IndexedDecoder
+ * @typedef {(stream: ByteStreamI, index: number) => T} IndexedDecoder
  */
 
 /**
@@ -39,7 +37,7 @@ import {
 function getIndexedDecoder(decoder) {
     if (decoder && "fromCbor" in decoder) {
         /**
-         * @type {(stream: ByteStream, i: number) => T}
+         * @type {(stream: ByteStreamI, i: number) => T}
          */
         return (stream, i) => {
             return decoder.fromCbor(stream)
@@ -50,7 +48,7 @@ function getIndexedDecoder(decoder) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isIndefList(bytes) {
@@ -64,7 +62,7 @@ export function isIndefList(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isDefList(bytes) {
@@ -74,7 +72,7 @@ export function isDefList(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isList(bytes) {
@@ -156,7 +154,7 @@ export function encodeDefList(items) {
  * Decodes a CBOR encoded list.
  * A decoder function is called with the bytes of every contained item (nothing is returning directly).
  * @template T
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @param {IndexedDecoder<T> | Decodeable<T>} itemDecoder
  * @returns {T[]}
  */
@@ -198,7 +196,7 @@ export function decodeList(bytes, itemDecoder) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  */
 export function decodeListLazy(bytes) {
     const stream = ByteStream.from(bytes)
@@ -272,7 +270,7 @@ export function decodeListLazy(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  */
 export function decodeListLazyOption(bytes) {
     const stream = ByteStream.from(bytes)

@@ -8,20 +8,18 @@ import {
 } from "./head.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
- */
-
-/**
  * @template T
  * @typedef {import("./generic.js").Decoder<T>} Decoder
  */
 
 /**
+ * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
+ * @typedef {import("@helios-lang/codec-utils").ByteStreamI} ByteStreamI
  * @typedef {import("./generic.js").Encodeable} Encodeable
  */
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isMap(bytes) {
@@ -29,7 +27,7 @@ export function isMap(bytes) {
 }
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 function isIndefMap(bytes) {
@@ -92,7 +90,7 @@ export function encodeMap(pairs) {
  * Internal use only, header already decoded
  * @template TKey
  * @template TValue
- * @param {ByteStream} stream
+ * @param {ByteStreamI} stream
  * @param {number} n
  * @param {Decoder<TKey>} keyDecoder
  * @param {Decoder<TValue>} valueDecoder
@@ -118,7 +116,7 @@ function decodeDefMap(stream, n, keyDecoder, valueDecoder) {
  * Used internally, head already decoded
  * @template TKey
  * @template TValue
- * @param {ByteStream} stream
+ * @param {ByteStreamI} stream
  * @param {Decoder<TKey>} keyDecoder
  * @param {Decoder<TValue>} valueDecoder
  * @returns {[TKey, TValue][]}
@@ -149,7 +147,7 @@ function decodeIndefMap(stream, keyDecoder, valueDecoder) {
  * which are simply stored as consecutive CBOR elements.
  * @template TKey
  * @template TValue
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @param {Decoder<TKey>} keyDecoder
  * @param {Decoder<TValue>} valueDecoder
  * @returns {[TKey, TValue][]}

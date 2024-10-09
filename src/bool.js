@@ -1,14 +1,14 @@
 import { ByteStream } from "@helios-lang/codec-utils"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
  */
 
 const FALSE_BYTE = 244 // m = 7, n = 20
 const TRUE_BYTE = 245 // m = 7, n = 21
 
 /**
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function isBool(bytes) {
@@ -35,7 +35,7 @@ export function encodeBool(b) {
 /**
  * Decodes a CBOR encoded `boolean`.
  * Throws an error if the next element in bytes isn't a `boolean`.
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @returns {boolean}
  */
 export function decodeBool(bytes) {

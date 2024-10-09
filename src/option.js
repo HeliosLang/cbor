@@ -10,13 +10,13 @@ import { decodeNull, encodeNull, isNull } from "./null.js"
  */
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteArrayLike} ByteArrayLike
+ * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
  * @typedef {import("./generic.js").Encodeable} Encodeable
  */
 
 /**
  * @template T
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @param {Decoder<T>} decodeSome
  * @returns {Option<T>}
  */
@@ -32,7 +32,7 @@ export function decodeNullOption(bytes, decodeSome) {
 
 /**
  * @template T
- * @param {ByteArrayLike} bytes
+ * @param {BytesLike} bytes
  * @param {Decoder<T>} decodeSome
  * @returns {Option<T>}
  */
