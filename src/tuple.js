@@ -4,7 +4,17 @@ import { decodeList, decodeListLazy, encodeDefList, isList } from "./list.js"
 
 /**
  * @template T
+ * @typedef {import("./generic.js").Decodeable<T>} Decodeable
+ */
+
+/**
+ * @template T
  * @typedef {import("./generic.js").Decoder<T>} Decoder
+ */
+
+/**
+ * @template T
+ * @typedef {import("./list.js").IndexedDecoder<T>} IndexedDecoder
  */
 
 /**
@@ -75,19 +85,8 @@ export function decodeTuple(bytes, itemDecoders, optionalDecoders = []) {
 }
 
 /**
- * Needs to be imported because, although it is inferred here, typescript will include it in the final .d.ts file and api-extractor will complain about unresolveable symbols
- * @template T
- * @typedef {import("./generic.js").Decodeable<T>} Decodeable
- */
-
-/**
- * Needs to be imported because, although it is inferred here, typescript will include it in the final .d.ts file and api-extractor will complain about unresolveable symbols
- * @template T
- * @typedef {import("./list.js").IndexedDecoder<T>} IndexedDecoder
- */
-
-/**
  * @param {BytesLike} bytes
+ * @returns {<T>(itemDecoder: IndexedDecoder<T> | Decodeable<T>) => T}
  */
 export function decodeTupleLazy(bytes) {
     return decodeListLazy(bytes)

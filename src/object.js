@@ -11,6 +11,7 @@ import { decodeString, encodeString } from "./string.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
+ * @typedef {import("@helios-lang/codec-utils").ByteStreamI} ByteStreamI
  * @typedef {import("./generic.js").Encodeable} Encodeable
  */
 
@@ -112,7 +113,11 @@ function decodeObjectTypeless(bytes, keyDecoder, fieldDecoders) {
 export function decodeObjectIKey(bytes, fieldDecoders) {
     return decodeObjectTypeless(
         bytes,
-        (stream, i) => Number(decodeInt(stream)),
+        /**
+         * @param {ByteStreamI} stream
+         * @returns {number}
+         */
+        (stream) => Number(decodeInt(stream)),
         fieldDecoders
     )
 }

@@ -158,7 +158,7 @@ describe(decodeTuple.name, () => {
 
     it("fails for #826161bf61626163ff when decoding 0 items", () => {
         throws(() => {
-            const res = decodeTuple(hexToBytes("826161bf61626163ff"), [])
+            decodeTuple(hexToBytes("826161bf61626163ff"), [])
         })
     })
 })

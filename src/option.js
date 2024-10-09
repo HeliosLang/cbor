@@ -43,8 +43,8 @@ export function decodeListOption(bytes, decodeSome) {
 }
 
 /**
- * @template T
  * @param {Option<Encodeable>} option
+ * @returns {number[]}
  */
 export function encodeNullOption(option) {
     return option ? encodeGeneric(option) : encodeNull()

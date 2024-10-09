@@ -39,7 +39,7 @@ function getIndexedDecoder(decoder) {
         /**
          * @type {(stream: ByteStreamI, i: number) => T}
          */
-        return (stream, i) => {
+        return (stream, _i) => {
             return decoder.fromCbor(stream)
         }
     } else {
@@ -197,6 +197,7 @@ export function decodeList(bytes, itemDecoder) {
 
 /**
  * @param {BytesLike} bytes
+ * @returns {<T>(itemDecoder: IndexedDecoder<T> | Decodeable<T>) => T}
  */
 export function decodeListLazy(bytes) {
     const stream = ByteStream.from(bytes)
@@ -271,6 +272,7 @@ export function decodeListLazy(bytes) {
 
 /**
  * @param {BytesLike} bytes
+ * @returns {<T>(itemDecoder: IndexedDecoder<T> | Decodeable<T>) => Option<T>}
  */
 export function decodeListLazyOption(bytes) {
     const stream = ByteStream.from(bytes)
