@@ -11,6 +11,6 @@
         "target": "esnext",
         "lib": ["es6"]
     },
-    "exclude": ["node_modules", "**/*.d.ts"],
+    "exclude": ["node_modules", "**/*.d.ts", "**/*.test.js"],
     "include": ["src/**/*.js", "node_modules/@helios-lang/type-utils"]
 }
