@@ -147,6 +147,17 @@ export function decodeConstr(bytes, fieldDecoder) {
 }
 
 /**
+ * Needs to be imported because, although it is inferred here, typescript will include it in the final .d.ts file and api-extractor will complain about unresolveable symbols
+ * @template T
+ * @typedef {import("./generic.js").Decodeable<T>} Decodeable
+ */
+/**
+ * Needs to be imported because, although it is inferred here, typescript will include it in the final .d.ts file and api-extractor will complain about unresolveable symbols
+ * @template T
+ * @typedef {import("./list.js").IndexedDecoder<T>} IndexedDecoder
+ */
+
+/**
  * @param {BytesLike} bytes
  */
 export function decodeConstrLazy(bytes) {
