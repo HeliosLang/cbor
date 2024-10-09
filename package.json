@@ -1,6 +1,6 @@
 {
     "name": "@helios-lang/cbor",
-    "version": "0.1.21",
+    "version": "0.1.22",
     "description": "Cardano-specific CBOR (de)serialization library",
     "main": "src/index.js",
     "types": "types/index.d.ts",
