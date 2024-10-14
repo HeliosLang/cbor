@@ -1,4 +1,4 @@
-import { ByteStream } from "@helios-lang/codec-utils"
+import { makeByteStream } from "@helios-lang/codec-utils"
 import { decodeDefHead, encodeDefHead } from "./head.js"
 
 /**
@@ -26,7 +26,7 @@ export function encodeTag(tag) {
  * @returns {bigint}
  */
 export function decodeTag(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     const [m, n] = decodeDefHead(stream)
 

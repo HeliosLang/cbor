@@ -1,4 +1,4 @@
-import { ByteStream } from "@helios-lang/codec-utils"
+import { makeByteStream } from "@helios-lang/codec-utils"
 import { decodeGeneric, encodeGeneric } from "./generic.js"
 import {
     decodeDefHead,
@@ -14,7 +14,7 @@ import {
 
 /**
  * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
- * @typedef {import("@helios-lang/codec-utils").ByteStreamI} ByteStreamI
+ * @typedef {import("@helios-lang/codec-utils").ByteStream} ByteStream
  * @typedef {import("./generic.js").Encodeable} Encodeable
  */
 
@@ -31,7 +31,7 @@ export function isMap(bytes) {
  * @returns {boolean}
  */
 function isIndefMap(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     return 5 * 32 + 31 == stream.peekOne()
 }
@@ -90,7 +90,7 @@ export function encodeMap(pairs) {
  * Internal use only, header already decoded
  * @template TKey
  * @template TValue
- * @param {ByteStreamI} stream
+ * @param {ByteStream} stream
  * @param {number} n
  * @param {Decoder<TKey>} keyDecoder
  * @param {Decoder<TValue>} valueDecoder
@@ -116,7 +116,7 @@ function decodeDefMap(stream, n, keyDecoder, valueDecoder) {
  * Used internally, head already decoded
  * @template TKey
  * @template TValue
- * @param {ByteStreamI} stream
+ * @param {ByteStream} stream
  * @param {Decoder<TKey>} keyDecoder
  * @param {Decoder<TValue>} valueDecoder
  * @returns {[TKey, TValue][]}
@@ -153,7 +153,7 @@ function decodeIndefMap(stream, keyDecoder, valueDecoder) {
  * @returns {[TKey, TValue][]}
  */
 export function decodeMap(bytes, keyDecoder, valueDecoder) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     if (isIndefMap(stream)) {
         void stream.shiftOne()

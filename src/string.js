@@ -1,8 +1,8 @@
 import {
-    ByteStream,
     decodeUtf8,
     encodeUtf8,
-    isValidUtf8
+    isValidUtf8,
+    makeByteStream
 } from "@helios-lang/codec-utils"
 import { decodeDefHead, encodeDefHead, peekMajorType } from "./head.js"
 import { decodeList, encodeDefList, isDefList } from "./list.js"
@@ -65,7 +65,7 @@ export function encodeString(str, split = false) {
  * @returns {string}
  */
 function decodeStringInternal(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     const [m, n] = decodeDefHead(stream)
 
@@ -81,7 +81,7 @@ function decodeStringInternal(bytes) {
  * @returns {string}
  */
 export function decodeString(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     if (isDefList(stream)) {
         let result = ""

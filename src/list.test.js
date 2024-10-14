@@ -11,7 +11,7 @@ import {
 } from "./list.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteStreamI} ByteStreamI
+ * @typedef {import("@helios-lang/codec-utils").ByteStream} ByteStream
  */
 
 describe(isList.name, () => {
@@ -61,7 +61,7 @@ describe(decodeList.name, () => {
     it("returns [1n,2n,3n] for #83010203 with fromCbor method", () => {
         class TestInt {
             /**
-             * @param {ByteStreamI} stream
+             * @param {ByteStream} stream
              * @returns {bigint}
              */
             static fromCbor(stream) {

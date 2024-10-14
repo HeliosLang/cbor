@@ -1,4 +1,4 @@
-import { ByteStream } from "@helios-lang/codec-utils"
+import { makeByteStream } from "@helios-lang/codec-utils"
 import { decodeGeneric } from "./generic.js"
 import { decodeDefHead, encodeDefHead } from "./head.js"
 import { decodeInt, encodeInt } from "./int.js"
@@ -29,7 +29,7 @@ import { decodeList, decodeListLazy, encodeList } from "./list.js"
  * @returns {boolean}
  */
 export function isConstr(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     const [m, n] = decodeDefHead(stream.copy())
 
@@ -77,7 +77,7 @@ export function encodeConstr(tag, fields) {
  * @returns {number}
  */
 function decodeConstrTag(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     // constr
     const [m, n] = decodeDefHead(stream)
@@ -122,7 +122,7 @@ function decodeConstrTag(bytes) {
  * ]}
  */
 export function decodeConstr(bytes, fieldDecoder) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     const tag = decodeConstrTag(stream)
 
@@ -161,7 +161,7 @@ export function decodeConstr(bytes, fieldDecoder) {
  * @returns {[number, <T>(itemDecoder: IndexedDecoder<T> | Decodeable<T>) => T]}
  */
 export function decodeConstrLazy(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
     const tag = decodeConstrTag(stream)
     const decodeField = decodeListLazy(bytes)
 

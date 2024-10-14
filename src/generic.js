@@ -1,15 +1,15 @@
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteStreamI} ByteStreamI
+ * @typedef {import("@helios-lang/codec-utils").ByteStream} ByteStream
  */
 
 /**
  * @template T
- * @typedef {{fromCbor: (stream: ByteStreamI) => T}} Decodeable
+ * @typedef {{fromCbor: (stream: ByteStream) => T}} Decodeable
  */
 
 /**
  * @template T
- * @typedef {((stream: ByteStreamI) => T) | Decodeable<T>} Decoder<T>
+ * @typedef {((stream: ByteStream) => T) | Decodeable<T>} Decoder<T>
  */
 
 /**
@@ -18,7 +18,7 @@
 
 /**
  * @template T
- * @param {ByteStreamI} stream
+ * @param {ByteStream} stream
  * @param {Decoder<T>} decoder
  * @returns {T}
  */

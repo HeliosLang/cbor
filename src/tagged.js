@@ -1,4 +1,4 @@
-import { ByteStream } from "@helios-lang/codec-utils"
+import { makeByteStream } from "@helios-lang/codec-utils"
 import { decodeConstrLazy } from "./constr.js"
 import { decodeInt } from "./int.js"
 import { decodeListLazy, isList } from "./list.js"
@@ -22,7 +22,7 @@ import { decodeListLazy, isList } from "./list.js"
  * @returns {[number, <T>(itemDecoder: IndexedDecoder<T> | Decodeable<T>) => T]}
  */
 export function decodeTagged(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     if (isList(stream)) {
         const decodeItem = decodeListLazy(stream)

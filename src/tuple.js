@@ -1,4 +1,4 @@
-import { ByteStream } from "@helios-lang/codec-utils"
+import { makeByteStream } from "@helios-lang/codec-utils"
 import { decodeGeneric } from "./generic.js"
 import { decodeList, decodeListLazy, encodeDefList, isList } from "./list.js"
 
@@ -50,7 +50,7 @@ export function encodeTuple(tuple) {
  * ]}
  */
 export function decodeTuple(bytes, itemDecoders, optionalDecoders = []) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     /**
      * decodeList is the right decoder, but has the wrong type interface

@@ -1,4 +1,4 @@
-import { ByteStream } from "@helios-lang/codec-utils"
+import { makeByteStream } from "@helios-lang/codec-utils"
 import { None } from "@helios-lang/type-utils"
 import { decodeGeneric, encodeGeneric } from "./generic.js"
 import { decodeListLazyOption, encodeList } from "./list.js"
@@ -21,7 +21,7 @@ import { decodeNull, encodeNull, isNull } from "./null.js"
  * @returns {Option<T>}
  */
 export function decodeNullOption(bytes, decodeSome) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     if (isNull(stream)) {
         return decodeNull(stream) ?? None

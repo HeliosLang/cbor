@@ -1,4 +1,4 @@
-import { ByteStream } from "@helios-lang/codec-utils"
+import { makeByteStream } from "@helios-lang/codec-utils"
 import { decodeGeneric } from "./generic.js"
 import { decodeInt, encodeInt } from "./int.js"
 import { isMap, encodeDefMap, decodeMap } from "./map.js"
@@ -11,7 +11,7 @@ import { decodeString, encodeString } from "./string.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
- * @typedef {import("@helios-lang/codec-utils").ByteStreamI} ByteStreamI
+ * @typedef {import("@helios-lang/codec-utils").ByteStream} ByteStream
  * @typedef {import("./generic.js").Encodeable} Encodeable
  */
 
@@ -76,7 +76,7 @@ export function encodeObjectSKey(object) {
  * @returns {any}
  */
 function decodeObjectTypeless(bytes, keyDecoder, fieldDecoders) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     /**
      * @type {any}
@@ -114,7 +114,7 @@ export function decodeObjectIKey(bytes, fieldDecoders) {
     return decodeObjectTypeless(
         bytes,
         /**
-         * @param {ByteStreamI} stream
+         * @param {ByteStream} stream
          * @returns {number}
          */
         (stream) => Number(decodeInt(stream)),

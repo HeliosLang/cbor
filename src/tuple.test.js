@@ -9,7 +9,7 @@ import { decodeTuple, decodeTupleLazy, encodeTuple, isTuple } from "./tuple.js"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
- * @typedef {import("@helios-lang/codec-utils").ByteStreamI} ByteStreamI
+ * @typedef {import("@helios-lang/codec-utils").ByteStream} ByteStream
  */
 
 describe(isTuple.name, () => {
@@ -114,7 +114,7 @@ describe(decodeTuple.name, () => {
     it('returns ["a", {b: "c"}] for #826161bf61626163ff with fromCbor methods', () => {
         class TestString {
             /**
-             * @param {ByteStreamI} stream
+             * @param {ByteStream} stream
              * @returns {string}
              */
             static fromCbor(stream) {
@@ -124,7 +124,7 @@ describe(decodeTuple.name, () => {
 
         class TestObject {
             /**
-             * @param {ByteStreamI} stream
+             * @param {ByteStream} stream
              * @returns {{b?: string}}
              */
             static fromCbor(stream) {

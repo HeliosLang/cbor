@@ -1,4 +1,4 @@
-import { ByteStream } from "@helios-lang/codec-utils"
+import { makeByteStream } from "@helios-lang/codec-utils"
 import { None } from "@helios-lang/type-utils"
 import { encodeGeneric } from "./generic.js"
 import {
@@ -20,13 +20,13 @@ import {
 
 /**
  * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
- * @typedef {import("@helios-lang/codec-utils").ByteStreamI} ByteStreamI
+ * @typedef {import("@helios-lang/codec-utils").ByteStream} ByteStream
  * @typedef {import("./generic.js").Encodeable} Encodeable
  */
 
 /**
  * @template T
- * @typedef {(stream: ByteStreamI, index: number) => T} IndexedDecoder
+ * @typedef {(stream: ByteStream, index: number) => T} IndexedDecoder
  */
 
 /**
@@ -37,7 +37,7 @@ import {
 function getIndexedDecoder(decoder) {
     if (decoder && "fromCbor" in decoder) {
         /**
-         * @type {(stream: ByteStreamI, i: number) => T}
+         * @type {(stream: ByteStream, i: number) => T}
          */
         return (stream, _i) => {
             return decoder.fromCbor(stream)
@@ -52,7 +52,7 @@ function getIndexedDecoder(decoder) {
  * @returns {boolean}
  */
 export function isIndefList(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     if (stream.isAtEnd()) {
         throw new Error("empty cbor bytes")
@@ -66,7 +66,7 @@ export function isIndefList(bytes) {
  * @returns {boolean}
  */
 export function isDefList(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     return peekMajorType(stream) == 4 && stream.peekOne() != 4 * 32 + 31
 }
@@ -159,7 +159,7 @@ export function encodeDefList(items) {
  * @returns {T[]}
  */
 export function decodeList(bytes, itemDecoder) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     const itemDecoder_ = getIndexedDecoder(itemDecoder)
 
@@ -200,7 +200,7 @@ export function decodeList(bytes, itemDecoder) {
  * @returns {<T>(itemDecoder: IndexedDecoder<T> | Decodeable<T>) => T}
  */
 export function decodeListLazy(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     if (isIndefList(stream)) {
         void stream.shiftOne()
@@ -275,7 +275,7 @@ export function decodeListLazy(bytes) {
  * @returns {<T>(itemDecoder: IndexedDecoder<T> | Decodeable<T>) => Option<T>}
  */
 export function decodeListLazyOption(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     if (isIndefList(stream)) {
         void stream.shiftOne()

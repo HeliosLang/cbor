@@ -1,6 +1,6 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
-import { hexToBytes, ByteStream } from "@helios-lang/codec-utils"
+import { hexToBytes, makeByteStream } from "@helios-lang/codec-utils"
 import { decodeInt, encodeInt } from "./int.js"
 import { decodeTag, encodeTag } from "./tag.js"
 
@@ -23,7 +23,7 @@ describe(decodeTag.name, () => {
     })
 
     it(`returns 1363896240 after calling ${decodeTag.name} on #c11a514b67b0`, () => {
-        const stream = new ByteStream(hexToBytes("c11a514b67b0"))
+        const stream = makeByteStream({ bytes: hexToBytes("c11a514b67b0") })
         decodeTag(stream)
         strictEqual(decodeInt(stream), 1363896240n)
     })

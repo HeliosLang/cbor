@@ -1,4 +1,8 @@
-import { encodeIntBE, decodeIntBE, ByteStream } from "@helios-lang/codec-utils"
+import {
+    decodeIntBE,
+    encodeIntBE,
+    makeByteStream
+} from "@helios-lang/codec-utils"
 
 /**
  * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
@@ -48,7 +52,7 @@ export function encodeDefHead(m, n) {
  * @returns {[number, bigint]} - [majorType, n]
  */
 export function decodeDefHead(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     if (stream.isAtEnd()) {
         throw new Error("empty cbor head")
@@ -98,7 +102,7 @@ export function decodeDefHead(bytes) {
  * @returns {number}
  */
 export function peekMajorType(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     return Math.trunc(stream.peekOne() / 32)
 }

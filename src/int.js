@@ -1,4 +1,8 @@
-import { encodeIntBE, decodeIntBE, ByteStream } from "@helios-lang/codec-utils"
+import {
+    decodeIntBE,
+    encodeIntBE,
+    makeByteStream
+} from "@helios-lang/codec-utils"
 import { decodeBytes, encodeBytes } from "./bytes.js"
 import { decodeDefHead, encodeDefHead } from "./head.js"
 
@@ -12,7 +16,7 @@ import { decodeDefHead, encodeDefHead } from "./head.js"
  * @returns {boolean}
  */
 export function isInt(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     const [m, n] = decodeDefHead(stream)
 
@@ -50,7 +54,7 @@ export function encodeInt(n) {
  * @returns {bigint}
  */
 export function decodeInt(bytes) {
-    const stream = ByteStream.from(bytes)
+    const stream = makeByteStream({ bytes })
 
     const [m, n] = decodeDefHead(stream)
 
