@@ -23,7 +23,7 @@ describe(decodeTag.name, () => {
     })
 
     it(`returns 1363896240 after calling ${decodeTag.name} on #c11a514b67b0`, () => {
-        const stream = makeByteStream({ bytes: hexToBytes("c11a514b67b0") })
+        const stream = makeByteStream(hexToBytes("c11a514b67b0"))
         decodeTag(stream)
         strictEqual(decodeInt(stream), 1363896240n)
     })

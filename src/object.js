@@ -76,7 +76,7 @@ export function encodeObjectSKey(object) {
  * @returns {any}
  */
 function decodeObjectTypeless(bytes, keyDecoder, fieldDecoders) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     /**
      * @type {any}

@@ -21,7 +21,7 @@ import { decodeNull, encodeNull, isNull } from "./null.js"
  * @returns {Option<T>}
  */
 export function decodeNullOption(bytes, decodeSome) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     if (isNull(stream)) {
         return decodeNull(stream) ?? None

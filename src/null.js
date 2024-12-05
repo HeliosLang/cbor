@@ -11,7 +11,7 @@ const NULL_BYTE = 246 // m = 7, n = 22
  * @returns {boolean}
  */
 export function isNull(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     return stream.peekOne() == NULL_BYTE
 }
@@ -32,7 +32,7 @@ export function encodeNull(_null = null) {
  * @returns {null}
  */
 export function decodeNull(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     const b = stream.shiftOne()
 

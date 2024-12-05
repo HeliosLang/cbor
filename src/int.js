@@ -16,7 +16,7 @@ import { decodeDefHead, encodeDefHead } from "./head.js"
  * @returns {boolean}
  */
 export function isInt(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     const [m, n] = decodeDefHead(stream)
 
@@ -54,7 +54,7 @@ export function encodeInt(n) {
  * @returns {bigint}
  */
 export function decodeInt(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     const [m, n] = decodeDefHead(stream)
 

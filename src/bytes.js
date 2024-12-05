@@ -15,7 +15,7 @@ import {
  * @returns {boolean}
  */
 export function isDefBytes(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     const m = peekMajorType(stream)
 
@@ -27,7 +27,7 @@ export function isDefBytes(bytes) {
  * @returns {boolean}
  */
 export function isIndefBytes(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     return 2 * 32 + 31 == stream.peekOne()
 }
@@ -77,7 +77,7 @@ export function encodeBytes(bytes, splitIntoChunks = false) {
  * @returns {number[]} - byteArray
  */
 export function decodeBytes(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     if (isIndefBytes(bytes)) {
         void stream.shiftOne()

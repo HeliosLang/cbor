@@ -22,7 +22,7 @@ import { decodeListLazy, isList } from "./list.js"
  * @returns {[number, <T>(itemDecoder: IndexedDecoder<T> | Decodeable<T>) => T]}
  */
 export function decodeTagged(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     if (isList(stream)) {
         const decodeItem = decodeListLazy(stream)

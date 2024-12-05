@@ -21,7 +21,7 @@ const FLOAT64_HEAD = 251
  * @returns {boolean}
  */
 export function isFloat16(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
     return stream.peekOne() == FLOAT16_HEAD
 }
 
@@ -30,7 +30,7 @@ export function isFloat16(bytes) {
  * @returns {boolean}
  */
 export function isFloat32(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
     return stream.peekOne() == FLOAT32_HEAD
 }
 
@@ -39,7 +39,7 @@ export function isFloat32(bytes) {
  * @returns {boolean}
  */
 export function isFloat64(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
     return stream.peekOne() == FLOAT64_HEAD
 }
 
@@ -48,7 +48,7 @@ export function isFloat64(bytes) {
  * @returns {boolean}
  */
 export function isFloat(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
     const head = stream.peekOne()
     return head == FLOAT16_HEAD || head == FLOAT32_HEAD || head == FLOAT64_HEAD
 }
@@ -58,7 +58,7 @@ export function isFloat(bytes) {
  * @returns {number}
  */
 export function decodeFloat16(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     const head = stream.shiftOne()
 
@@ -74,7 +74,7 @@ export function decodeFloat16(bytes) {
  * @returns {number}
  */
 export function decodeFloat32(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     const head = stream.shiftOne()
 
@@ -90,7 +90,7 @@ export function decodeFloat32(bytes) {
  * @returns {number}
  */
 export function decodeFloat64(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     const head = stream.shiftOne()
 
@@ -106,7 +106,7 @@ export function decodeFloat64(bytes) {
  * @returns {number}
  */
 export function decodeFloat(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     const head = stream.shiftOne()
 

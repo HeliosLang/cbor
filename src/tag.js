@@ -26,7 +26,7 @@ export function encodeTag(tag) {
  * @returns {bigint}
  */
 export function decodeTag(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     const [m, n] = decodeDefHead(stream)
 

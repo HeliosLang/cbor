@@ -52,7 +52,7 @@ export function encodeDefHead(m, n) {
  * @returns {[number, bigint]} - [majorType, n]
  */
 export function decodeDefHead(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     if (stream.isAtEnd()) {
         throw new Error("empty cbor head")
@@ -102,7 +102,7 @@ export function decodeDefHead(bytes) {
  * @returns {number}
  */
 export function peekMajorType(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     return Math.trunc(stream.peekOne() / 32)
 }

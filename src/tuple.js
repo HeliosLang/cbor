@@ -50,7 +50,7 @@ export function encodeTuple(tuple) {
  * ]}
  */
 export function decodeTuple(bytes, itemDecoders, optionalDecoders = []) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     /**
      * decodeList is the right decoder, but has the wrong type interface

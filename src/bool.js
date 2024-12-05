@@ -12,7 +12,7 @@ const TRUE_BYTE = 245 // m = 7, n = 21
  * @returns {boolean}
  */
 export function isBool(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     const b = stream.peekOne()
 
@@ -39,7 +39,7 @@ export function encodeBool(b) {
  * @returns {boolean}
  */
 export function decodeBool(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     const b = stream.shiftOne()
 
