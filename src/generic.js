@@ -1,19 +1,6 @@
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteStream} ByteStream
- */
-
-/**
- * @template T
- * @typedef {{fromCbor: (stream: ByteStream) => T}} Decodeable
- */
-
-/**
- * @template T
- * @typedef {((stream: ByteStream) => T) | Decodeable<T>} Decoder<T>
- */
-
-/**
- * @typedef {number[] | {toCbor: () => number[]}} Encodeable
+ * @import { ByteStream } from "@helios-lang/codec-utils"
+ * @import { Decoder, Encodeable } from "./index.js"
  */
 
 /**

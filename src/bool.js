@@ -1,7 +1,7 @@
 import { makeByteStream } from "@helios-lang/codec-utils"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
+ * @import { BytesLike } from "@helios-lang/codec-utils"
  */
 
 const FALSE_BYTE = 244 // m = 7, n = 20

@@ -11,7 +11,7 @@ import {
 } from "./list.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").ByteStream} ByteStream
+ * @import { ByteStream } from "@helios-lang/codec-utils"
  */
 
 describe(isList.name, () => {
@@ -175,20 +175,20 @@ describe(decodeListLazyOption.name, () => {
         decodeListLazy([0x80])
     })
 
-    it("returns null when calling the callback for [0x80] (i.e. empty list)", () => {
+    it("returns undefined when calling the callback for [0x80] (i.e. empty list)", () => {
         const callback = decodeListLazyOption([0x80])
 
-        strictEqual(callback(decodeInt), null)
+        strictEqual(callback(decodeInt), undefined)
     })
 
     it("succeeds when not calling callback for [0x9f, 0xff] (i.e. empty list)", () => {
         decodeListLazyOption([0x9f, 0xff])
     })
 
-    it("returns null when calling the callback for [0x9f, 0xff] (i.e. empty list)", () => {
+    it("returns undefined when calling the callback for [0x9f, 0xff] (i.e. empty list)", () => {
         const callback = decodeListLazyOption([0x9f, 0xff])
 
-        strictEqual(callback(decodeInt), null)
+        strictEqual(callback(decodeInt), undefined)
     })
 
     it("returns [1n,2n,3n] for #83010203", () => {
@@ -198,7 +198,7 @@ describe(decodeListLazyOption.name, () => {
         strictEqual(callback(decodeInt), 2n)
         strictEqual(callback(decodeInt), 3n)
 
-        strictEqual(callback(decodeInt), null)
+        strictEqual(callback(decodeInt), undefined)
     })
 
     describe("returns [1n,2n,3n,4n, ..., 25n]", () => {
@@ -215,7 +215,7 @@ describe(decodeListLazyOption.name, () => {
                     strictEqual(callback(decodeInt), BigInt(i))
                 }
 
-                strictEqual(callback(decodeInt), null)
+                strictEqual(callback(decodeInt), undefined)
             })
         }
     })

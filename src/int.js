@@ -7,8 +7,7 @@ import { decodeBytes, encodeBytes } from "./bytes.js"
 import { decodeDefHead, encodeDefHead } from "./head.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
- * @typedef {import("@helios-lang/codec-utils").IntLike} IntLike
+ * @import { BytesLike, IntLike } from "@helios-lang/codec-utils"
  */
 
 /**

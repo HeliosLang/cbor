@@ -49,26 +49,31 @@ export {
     encodeListOption,
     encodeNullOption
 } from "./option.js"
+export { decodeSet, encodeSet } from "./set.js"
 export { decodeString, encodeString, isString } from "./string.js"
-export { decodeTag, encodeTag } from "./tag.js"
+export { decodeTag, encodeTag, isTag } from "./tag.js"
 export { decodeTagged } from "./tagged.js"
 export { decodeTuple, decodeTupleLazy, encodeTuple, isTuple } from "./tuple.js"
 
 /**
- * @typedef {import("./generic.js").Encodeable}
+ * @import { ByteStream } from "@helios-lang/codec-utils"
  */
 
 /**
  * @template T
- * @typedef {import("./generic.js").Decoder<T>} Decoder
+ * @typedef {{fromCbor: (stream: ByteStream) => T}} Decodeable
  */
 
 /**
  * @template T
- * @typedef {import("./generic.js").Decodeable<T>} Decodeable
+ * @typedef {((stream: ByteStream) => T) | Decodeable<T>} Decoder<T>
+ */
+
+/**
+ * @typedef {number[] | {toCbor: () => number[]}} Encodeable
  */
 
 /**
  * @template T
- * @typedef {import("./list.js").IndexedDecoder<T>} IndexedDecoder
+ * @typedef {(stream: ByteStream, index: number) => T} IndexedDecoder
  */

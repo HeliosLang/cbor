@@ -8,8 +8,7 @@ import { decodeString, encodeString } from "./string.js"
 import { decodeTuple, decodeTupleLazy, encodeTuple, isTuple } from "./tuple.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
- * @typedef {import("@helios-lang/codec-utils").ByteStream} ByteStream
+ * @import { BytesLike, ByteStream } from "@helios-lang/codec-utils"
  */
 
 describe(isTuple.name, () => {
@@ -74,7 +73,7 @@ describe(decodeTuple.name, () => {
 
     it('returns ["a", {b: "c"}] for #826161bf61626163ff, with the second decoder being optional', () => {
         /**
-         * @satisfies {[string, Option<{b?: string}>]}
+         * @satisfies {[string, {b?: string} | undefined]}
          */
         const actual = decodeTuple(
             hexToBytes("826161bf61626163ff"),

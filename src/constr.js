@@ -5,23 +5,8 @@ import { decodeInt, encodeInt } from "./int.js"
 import { decodeList, decodeListLazy, encodeList } from "./list.js"
 
 /**
- * @template T
- * @typedef {import("./generic.js").Decodeable<T>} Decodeable
- */
-
-/**
- * @template T
- * @typedef {import("./generic.js").Decoder<T>} Decoder<T>
- */
-
-/**
- * @template T
- * @typedef {import("./list.js").IndexedDecoder<T>} IndexedDecoder
- */
-
-/**
- * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
- * @typedef {import("./generic.js").Encodeable} Encodeable
+ * @import { BytesLike } from "@helios-lang/codec-utils"
+ * @import { Decodeable, Decoder, Encodeable, IndexedDecoder } from "./index.js"
  */
 
 /**

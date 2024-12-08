@@ -8,7 +8,7 @@ import { decodeDefHead, encodeDefHead, peekMajorType } from "./head.js"
 import { decodeList, encodeDefList, isDefList } from "./list.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
+ * @import { BytesLike } from "@helios-lang/codec-utils"
  */
 
 /**

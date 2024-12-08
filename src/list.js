@@ -1,5 +1,4 @@
 import { makeByteStream } from "@helios-lang/codec-utils"
-import { None } from "@helios-lang/type-utils"
 import { encodeGeneric } from "./generic.js"
 import {
     decodeDefHead,
@@ -9,24 +8,8 @@ import {
 } from "./head.js"
 
 /**
- * @template T
- * @typedef {import("./generic.js").Decodeable<T>} Decodeable
- */
-
-/**
- * @template T
- * @typedef {import("./generic.js").Decoder<T>} Decoder
- */
-
-/**
- * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
- * @typedef {import("@helios-lang/codec-utils").ByteStream} ByteStream
- * @typedef {import("./generic.js").Encodeable} Encodeable
- */
-
-/**
- * @template T
- * @typedef {(stream: ByteStream, index: number) => T} IndexedDecoder
+ * @import { BytesLike, ByteStream } from "@helios-lang/codec-utils"
+ * @import { Decodeable, Decoder, Encodeable, IndexedDecoder } from "./index.js"
  */
 
 /**
@@ -272,7 +255,7 @@ export function decodeListLazy(bytes) {
 
 /**
  * @param {BytesLike} bytes
- * @returns {<T>(itemDecoder: IndexedDecoder<T> | Decodeable<T>) => Option<T>}
+ * @returns {<T>(itemDecoder: IndexedDecoder<T> | Decodeable<T>) => (T | undefined)}
  */
 export function decodeListLazyOption(bytes) {
     const stream = makeByteStream(bytes)
@@ -291,11 +274,11 @@ export function decodeListLazyOption(bytes) {
         /**
          * @template T
          * @param {IndexedDecoder<T> | Decodeable<T>} itemDecoder
-         * @returns {Option<T>}
+         * @returns {T | undefined}
          */
         function decodeItem(itemDecoder) {
             if (done) {
-                return None
+                return undefined
             }
 
             const itemDecoder_ = getIndexedDecoder(itemDecoder)
@@ -325,11 +308,11 @@ export function decodeListLazyOption(bytes) {
         /**
          * @template T
          * @param {IndexedDecoder<T> | Decodeable<T>} itemDecoder
-         * @returns {Option<T>}
+         * @returns {T | undefined}
          */
         function decodeItem(itemDecoder) {
             if (i >= n) {
-                return None
+                return undefined
             }
 
             const itemDecoder_ = getIndexedDecoder(itemDecoder)

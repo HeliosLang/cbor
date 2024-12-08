@@ -4,7 +4,7 @@ import { bytesToHex } from "@helios-lang/codec-utils"
 import { decodeInt, encodeInt, isInt } from "./int.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").IntLike} IntLike
+ * @import { IntLike } from "@helios-lang/codec-utils"
  */
 
 /**

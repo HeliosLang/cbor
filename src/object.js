@@ -5,14 +5,8 @@ import { isMap, encodeDefMap, decodeMap } from "./map.js"
 import { decodeString, encodeString } from "./string.js"
 
 /**
- * @template T
- * @typedef {import("./generic.js").Decoder<T>} Decoder
- */
-
-/**
- * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
- * @typedef {import("@helios-lang/codec-utils").ByteStream} ByteStream
- * @typedef {import("./generic.js").Encodeable} Encodeable
+ * @import { BytesLike, ByteStream } from "@helios-lang/codec-utils"
+ * @import { Decoder, Encodeable } from "./index.js"
  */
 
 /**

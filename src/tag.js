@@ -1,10 +1,17 @@
 import { makeByteStream } from "@helios-lang/codec-utils"
-import { decodeDefHead, encodeDefHead } from "./head.js"
+import { decodeDefHead, encodeDefHead, peekMajorType } from "./head.js"
 
 /**
- * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
- * @typedef {import("@helios-lang/codec-utils").IntLike} IntLike
+ * @import { BytesLike, IntLike } from "@helios-lang/codec-utils"
  */
+
+/**
+ * @param {BytesLike} bytes
+ * @returns {boolean}
+ */
+export function isTag(bytes) {
+    return peekMajorType(bytes) == 6
+}
 
 /**
  * Unrelated to constructor

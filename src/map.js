@@ -8,14 +8,8 @@ import {
 } from "./head.js"
 
 /**
- * @template T
- * @typedef {import("./generic.js").Decoder<T>} Decoder
- */
-
-/**
- * @typedef {import("@helios-lang/codec-utils").BytesLike} BytesLike
- * @typedef {import("@helios-lang/codec-utils").ByteStream} ByteStream
- * @typedef {import("./generic.js").Encodeable} Encodeable
+ * @import { BytesLike, ByteStream } from "@helios-lang/codec-utils"
+ * @import { Decoder, Encodeable } from "./index.js"
  */
 
 /**
@@ -31,7 +25,7 @@ export function isMap(bytes) {
  * @returns {boolean}
  */
 function isIndefMap(bytes) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     return 5 * 32 + 31 == stream.peekOne()
 }
@@ -153,7 +147,7 @@ function decodeIndefMap(stream, keyDecoder, valueDecoder) {
  * @returns {[TKey, TValue][]}
  */
 export function decodeMap(bytes, keyDecoder, valueDecoder) {
-    const stream = makeByteStream({ bytes })
+    const stream = makeByteStream(bytes)
 
     if (isIndefMap(stream)) {
         void stream.shiftOne()
