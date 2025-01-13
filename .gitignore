@@ -7,3 +7,4 @@ log.*
 types
 api-extractor.json
 tsconfig-api-extractor.json
+dist
