@@ -1,6 +1,8 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
+import { makeByteStream } from "@helios-lang/codec-utils"
 import { decodeBool, encodeBool, isBool } from "./bool.js"
+import { encodeInt } from "./int.js"
 
 const FALSE_CBOR_BYTE = 0xf4
 const TRUE_CBOR_BYTE = 0xf5
@@ -16,6 +18,20 @@ describe(isBool.name, () => {
 
     it(`returns true for [${TRUE_CBOR_BYTE}]`, () => {
         strictEqual(isBool([TRUE_CBOR_BYTE]), true)
+    })
+
+    it("doesn't change stream pos", () => {
+        const stream = makeByteStream([TRUE_CBOR_BYTE])
+
+        strictEqual(isBool(stream), true)
+        strictEqual(stream.pos, 0)
+    })
+
+    it("doesn't change stream pos if not a bool", () => {
+        const stream = makeByteStream(encodeInt(0))
+
+        strictEqual(isBool(stream), false)
+        strictEqual(stream.pos, 0)
     })
 })
 

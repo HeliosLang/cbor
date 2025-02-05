@@ -1,6 +1,6 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
-import { hexToBytes } from "@helios-lang/codec-utils"
+import { hexToBytes, makeByteStream } from "@helios-lang/codec-utils"
 import { decodeInt, encodeInt } from "./int.js"
 import { decodeList } from "./list.js"
 import { decodeObjectSKey, encodeObjectSKey } from "./object.js"
@@ -22,6 +22,20 @@ describe(isTuple.name, () => {
 
     it("returns true for #8301820203820405", () => {
         strictEqual(isTuple(hexToBytes("8301820203820405")), true)
+    })
+
+    it("doesn't change stream pos", () => {
+        const stream = makeByteStream("8301820203820405")
+
+        strictEqual(isTuple(stream), true)
+        strictEqual(stream.pos, 0)
+    })
+
+    it("doesn't change stream pos if not a tuple", () => {
+        const stream = makeByteStream(encodeInt(0))
+
+        strictEqual(isTuple(stream), false)
+        strictEqual(stream.pos, 0)
     })
 })
 

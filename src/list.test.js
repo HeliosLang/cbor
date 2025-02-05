@@ -1,6 +1,6 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
-import { hexToBytes } from "@helios-lang/codec-utils"
+import { hexToBytes, makeByteStream } from "@helios-lang/codec-utils"
 import { decodeInt } from "./int.js"
 import {
     decodeList,
@@ -29,6 +29,20 @@ describe(isList.name, () => {
 
     it("fails for []", () => {
         throws(() => isList([]))
+    })
+
+    it("doesn't change stream pos", () => {
+        const stream = makeByteStream([0x80])
+
+        strictEqual(isList(stream), true)
+        strictEqual(stream.pos, 0)
+    })
+
+    it("doesn't change stream pos if not a list", () => {
+        const stream = makeByteStream([0x61, 0x61])
+
+        strictEqual(isList(stream), false)
+        strictEqual(stream.pos, 0)
     })
 })
 

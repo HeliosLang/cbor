@@ -1,6 +1,6 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
-import { hexToBytes } from "@helios-lang/codec-utils"
+import { hexToBytes, makeByteStream } from "@helios-lang/codec-utils"
 import { decodeInt, encodeInt } from "./int.js"
 import {
     decodeMap,
@@ -22,6 +22,20 @@ describe(isMap.name, () => {
 
     it("fails for []", () => {
         throws(() => isMap([]))
+    })
+
+    it("doesn't change stream pos", () => {
+        const stream = makeByteStream([0xa0])
+
+        strictEqual(isMap(stream), true)
+        strictEqual(stream.pos, 0)
+    })
+
+    it("doesn't change stream pos if not a map", () => {
+        const stream = makeByteStream(encodeInt(0))
+
+        strictEqual(isMap(stream), false)
+        strictEqual(stream.pos, 0)
     })
 })
 

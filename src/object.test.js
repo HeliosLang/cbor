@@ -1,6 +1,6 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
-import { hexToBytes } from "@helios-lang/codec-utils"
+import { hexToBytes, makeByteStream } from "@helios-lang/codec-utils"
 import { decodeBool } from "./bool.js"
 import { decodeInt, encodeInt } from "./int.js"
 import { decodeList } from "./list.js"
@@ -24,6 +24,20 @@ describe(isObject.name, () => {
 
     it("returns true for #a201020304", () => {
         strictEqual(isObject(hexToBytes("a201020304")), true)
+    })
+
+    it("doesn't change stream pos", () => {
+        const stream = makeByteStream("a201020304")
+
+        strictEqual(isObject(stream), true)
+        strictEqual(stream.pos, 0)
+    })
+
+    it("doesn't change stream pos if not an object", () => {
+        const stream = makeByteStream(encodeInt(0))
+
+        strictEqual(isObject(stream), false)
+        strictEqual(stream.pos, 0)
     })
 })
 

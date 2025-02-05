@@ -1,6 +1,7 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
-import { hexToBytes } from "@helios-lang/codec-utils"
+import { hexToBytes, makeByteStream } from "@helios-lang/codec-utils"
+import { encodeInt } from "./int.js"
 import { decodeString, encodeString, isString } from "./string.js"
 
 describe(isString.name, () => {
@@ -14,6 +15,20 @@ describe(isString.name, () => {
 
     it("fails for []", () => {
         throws(() => isString([]))
+    })
+
+    it("doesn't change stream pos", () => {
+        const stream = makeByteStream([0x60])
+
+        strictEqual(isString(stream), true)
+        strictEqual(stream.pos, 0)
+    })
+
+    it("doesn't change stream pos if not a string", () => {
+        const stream = makeByteStream(encodeInt(0))
+
+        strictEqual(isString(stream), false)
+        strictEqual(stream.pos, 0)
     })
 })
 

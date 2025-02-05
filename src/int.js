@@ -4,7 +4,11 @@ import {
     makeByteStream
 } from "@helios-lang/codec-utils"
 import { decodeBytes, encodeBytes } from "./bytes.js"
-import { decodeDefHead, encodeDefHead } from "./head.js"
+import {
+    decodeDefHead,
+    encodeDefHead,
+    peekMajorAndSimpleMinorType
+} from "./head.js"
 
 /**
  * @import { BytesLike, IntLike } from "@helios-lang/codec-utils"
@@ -15,14 +19,12 @@ import { decodeDefHead, encodeDefHead } from "./head.js"
  * @returns {boolean}
  */
 export function isInt(bytes) {
-    const stream = makeByteStream(bytes)
-
-    const [m, n] = decodeDefHead(stream)
+    const [m, n0] = peekMajorAndSimpleMinorType(bytes)
 
     if (m == 0 || m == 1) {
         return true
     } else if (m == 6) {
-        return n == 2n || n == 3n
+        return n0 == 2 || n0 == 3
     } else {
         return false
     }

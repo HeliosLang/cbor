@@ -1,6 +1,10 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
-import { bytesToHex, hexToBytes } from "@helios-lang/codec-utils"
+import {
+    bytesToHex,
+    hexToBytes,
+    makeByteStream
+} from "@helios-lang/codec-utils"
 import { decodeBytes, encodeBytes, isBytes, isDefBytes } from "./bytes.js"
 import { encodeInt } from "./int.js"
 import { encodeDefList } from "./list.js"
@@ -16,6 +20,22 @@ describe(isBytes.name, () => {
 
     it("returns true for #4e4d01000033222220051200120011", () => {
         strictEqual(isBytes(hexToBytes("4e4d01000033222220051200120011")), true)
+    })
+
+    it("doesn't change stream pos", () => {
+        const stream = makeByteStream(
+            hexToBytes("4e4d01000033222220051200120011")
+        )
+
+        strictEqual(isBytes(stream), true)
+        strictEqual(stream.pos, 0)
+    })
+
+    it("doesn't change stream pos if not bytes", () => {
+        const stream = makeByteStream(encodeInt(0))
+
+        strictEqual(isBytes(stream), false)
+        strictEqual(stream.pos, 0)
     })
 })
 

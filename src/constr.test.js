@@ -1,6 +1,6 @@
 import { deepEqual, strictEqual, throws } from "node:assert"
 import { describe, it } from "node:test"
-import { hexToBytes } from "@helios-lang/codec-utils"
+import { hexToBytes, makeByteStream } from "@helios-lang/codec-utils"
 import { decodeBytes, encodeBytes } from "./bytes.js"
 import { decodeConstr, encodeConstr, isConstr } from "./constr.js"
 import { encodeDefHead } from "./head.js"
@@ -36,6 +36,22 @@ describe(isConstr.name, () => {
 
     it("fails for []]", () => {
         throws(() => isConstr([]))
+    })
+
+    it("doesn't change stream pos", () => {
+        const stream = makeByteStream(
+            "d87982581cbd99a373075d42fe4ac9109515e46303d0940cb9620bf058b87986a9d87980"
+        )
+
+        strictEqual(isConstr(stream), true)
+        strictEqual(stream.pos, 0)
+    })
+
+    it("doesn't change stream pos if not a constr", () => {
+        const stream = makeByteStream(encodeInt(0))
+
+        strictEqual(isConstr(stream), false)
+        strictEqual(stream.pos, 0)
     })
 })
 
