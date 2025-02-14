@@ -43,3 +43,13 @@ export function decodeTag(bytes) {
 
     return n
 }
+
+/**
+ * @param {BytesLike} bytes
+ * @returns {bigint}
+ */
+export function peekTag(bytes) {
+    const streamCopy = makeByteStream(bytes).copy()
+
+    return decodeTag(streamCopy)
+}

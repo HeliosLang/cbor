@@ -49,7 +49,7 @@ export {
     encodeListOption,
     encodeNullOption
 } from "./option.js"
-export { decodeSet, encodeSet } from "./set.js"
+export { decodeSet, encodeSet, isSet } from "./set.js"
 export { decodeString, encodeString, isString } from "./string.js"
 export { decodeTag, encodeTag, isTag } from "./tag.js"
 export { decodeTagged } from "./tagged.js"
