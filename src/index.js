@@ -66,7 +66,7 @@ export { decodeTuple, decodeTupleLazy, encodeTuple, isTuple } from "./tuple.js"
 
 /**
  * @template T
- * @typedef {((stream: ByteStream) => T) | Decodeable<T>} Decoder<T>
+ * @typedef {((stream: ByteStream) => T) | Decodeable<T>} Decoder
  */
 
 /**
